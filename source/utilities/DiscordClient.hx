@@ -14,90 +14,46 @@ import sys.thread.Thread;
 using cpp.RawPointer;
 using cpp.Function;
 
-/**
- * Class for handling Discord RPC
- */
 class DiscordClient {
-	/**
-	 * Whether the client is currently running
-	 */
+	public static var started(default, null):Bool = false;
 	public static var active(default, null):Bool = false;
-
-	/**
-	 * The default Discord RPC ID
-	 */
-	public static var defaultID(default, never):String = "864980501004812369";
-
-	/**
-	 * The current Discord RPC ID
-	 */
+	public static var defaultID(default, null):String = "1230686862234882058";
 	public static var ID(default, set):String = defaultID;
 
-	/**
-	 * The current Discord RPC
-	 */
-	public static var presence(default, never):DiscordRichPresence = new DiscordRichPresence();
+	public static var presence(default, null):DiscordRichPresence = new DiscordRichPresence();
 
-	/**
-	 * Signal for when the Discord RPC gives an error.
-	 */
-	public static var onError(default, never):FlxTypedSignal<(Int, String) -> Void> = new FlxTypedSignal<(Int, String) -> Void>();
+	public static var onError(default, null):FlxTypedSignal<(Int, String) -> Void> = new FlxTypedSignal<(Int, String) -> Void>();
+	public static var onDisconnect(default, null):FlxTypedSignal<(Int, ConstCharStar) -> Void> = new FlxTypedSignal<(Int, ConstCharStar) -> Void>();
+	public static var onReady(default, null):FlxTypedSignal<RawConstPointer<DiscordUser> -> Void> = new FlxTypedSignal<RawConstPointer<DiscordUser> -> Void>();
+	public static var discordThread:Thread;
 
-	/**
-	 * Signal for when the Discord RPC disconnects.
-	 */
-	public static var onDisconnect(default, never):FlxTypedSignal<(Int, ConstCharStar) -> Void> = new FlxTypedSignal<(Int, ConstCharStar) -> Void>();
-
-	/**
-	 * Signal for when the Discord RPC is ready.
-	 */
-	public static var onReady(default, never):FlxTypedSignal<RawConstPointer<DiscordUser>->Void> = new FlxTypedSignal<RawConstPointer<DiscordUser>->Void>();
-
-	
-	private static var discordThread(default, null):Thread = null;
-
-	/**
-	 * Starts the Discord RPC
-	 */
 	public static function startup() {
-		if(active){
+		if (started)
 			return;
-		}
-		final handlers:DiscordEventHandlers = new DiscordEventHandlers();
 
+		final handlers:DiscordEventHandlers = new DiscordEventHandlers();
 		handlers.ready = _onReady.fromStaticFunction();
 		handlers.disconnected = _onDisconnect.fromStaticFunction();
 		handlers.errored = _onError.fromStaticFunction();
 		Discord.Initialize(ID, handlers.addressOf(), false, null);
-
-		active = true;
-
-		if (discordThread == null) {
-			discordThread = Thread.create(() -> {
-				while (true) {
-					#if DISCORD_DISABLE_IO_THREAD
-					Discord.UpdateConnection();
-					#end
-
-					Discord.RunCallbacks();
-
-					Sys.sleep(1);
-				}
-			});
-		}
+		started = true;
+		discordThread = Thread.create(() -> {
+			while (started) {
+				#if DISCORD_DISABLE_IO_THREAD
+				Discord.UpdateConnection();
+				#end
+				Discord.RunCallbacks();
+				Sys.sleep(1);
+			}
+		});
 	}
 
-	/**
-	 * Shutsdown the Discord RPC.
-	 */
-	public static inline function shutdown() {
-		if(!active){
-			return;
-		}
+	public static function shutdown() {
+		if (!started) return;
 		trace("Discord: Shutting down...");
-		Discord.Shutdown();
+		started = false;
 		active = false;
-		trace("Discord: Shut down.");
+		Discord.Shutdown();
 	}
 
 	private static function _onReady(request:RawConstPointer<DiscordUser>) {
@@ -111,13 +67,14 @@ class DiscordClient {
 		else
 			trace('Discord: Connected to user @${username} ($globalName)');
 
-		active = true;		
-
+		active = true;
+		changePresence();
 		onReady.dispatch(request);
 	}
 
 	public static function changePresence(details:String = "", ?state:String, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float,
 			largeImageKey:String = "icon", largeImageText:String = "Leather Engine") {
+
 		var startTimestamp:Float = hasStartTimestamp ? Date.now().getTime() : 0;
 
 		if (endTimestamp > 0) {
@@ -131,27 +88,37 @@ class DiscordClient {
 		presence.smallImageKey = smallImageKey;
 		presence.startTimestamp = Std.int(startTimestamp / 1000);
 		presence.endTimestamp = Std.int(endTimestamp / 1000);
+
 		updatePresence();
 	}
 
 	public static inline function updatePresence() {
-		if(!active) {
-			return;
-		}
+		if (!active) return;
 		Discord.UpdatePresence(presence.addressOf());
 	}
 
 	public static function loadModPresence():Bool {
 		var jsonPath:String = 'mods/${Options.getData("curMod")}/discord.json';
+
 		if (FileSystem.exists(jsonPath)) {
 			var discordData:DiscordData = cast Json.parse(File.getContent(jsonPath));
+			trace('Found mod presence at $jsonPath');
 			ID = discordData.ID;
+			if (started) {
+				shutdown();
+				Sys.sleep(0.1);
+			}
+			startup();
 			changePresence("", null, null, null, null, discordData.key, discordData.text);
+
+			trace('Discord RPC updated with mod presence: ID=${discordData.ID}, key=${discordData.key}');
 			return true;
 		} else {
 			ID = defaultID;
 			changePresence();
 		}
+
+		trace("didnt find mod presence");
 		return false;
 	}
 
@@ -167,15 +134,7 @@ class DiscordClient {
 
 	@:noCompletion
 	static inline function set_ID(newID:String):String {
-		if (ID == newID) {
-			return ID;
-		}
-		ID = newID;
-		shutdown();
-		startup();
-		updatePresence();
-
-		return newID;
+		return ID = newID;
 	}
 }
 

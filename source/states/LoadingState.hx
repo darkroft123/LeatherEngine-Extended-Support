@@ -365,7 +365,7 @@ class LoadingState extends MusicBeatState
 	border.scrollFactor.set();
 	add(border);
 
-	loadingBar = new FlxBar(barX + 210 , barY+7, LEFT_TO_RIGHT, barWidth, barHeight, this, 'lerpedPercent', 0, 1);
+	loadingBar = new FlxBar(barX + 205 , barY+7, LEFT_TO_RIGHT, barWidth, barHeight, this, 'lerpedPercent', 0, 1);
 	loadingBar.scrollFactor.set();
 	loadingBar.createFilledBar(0xFF444444, 0xFFFFFFFF);
 	add(loadingBar);

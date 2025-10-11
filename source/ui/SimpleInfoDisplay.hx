@@ -20,7 +20,7 @@ import ui.logs.Logs;
 /**
  * Shows basic info about the game.
  */
-class SimpleInfoDisplay extends TextField {
+class SimpleInfoDisplay extends TextField {//like codename
     //                                      fps    mem   version console info , discord
     public var infoDisplayed:Array<Bool> = [false, false, false, false, false, false]; 
     public var framerate:Int = 0;
@@ -69,7 +69,7 @@ class SimpleInfoDisplay extends TextField {
 		text = '';
 		if (infoDisplayed[0]) text += fpsStr + " FPS\n";
 		if (infoDisplayed[1]) text += memUsed + " / " + memPeak + "\n";
-		if (infoDisplayed[2]) text += "Leather Engine " + version + "\n";
+		if (infoDisplayed[2]) text += "Leather Engine Plus " + version + "\n";
 		if (infoDisplayed[3] && (Main.logsOverlay.logs.length > 0 || Logs.errors > 0)) {
 				var logInfo = '';
 				if (Main.logsOverlay.logs.length > 0) {
