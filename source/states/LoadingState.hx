@@ -291,7 +291,7 @@ class LoadingState extends MusicBeatState
 		instance = this;
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Loading Song", null);
+		DiscordClient.changePresence("Loading - " + PlayState.SONG.song, null);
 		#end
 		#if PRELOAD_ALL
 		var loadingScreen = new FlxSprite(0, 0);

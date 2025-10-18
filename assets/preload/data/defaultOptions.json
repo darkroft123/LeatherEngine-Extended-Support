@@ -25,6 +25,22 @@
 			"value": true
 		},
 		{
+			"option": "trails",
+			"value": true
+		},
+		{
+			"option": "noteTimer",
+			"value": true
+		},
+		{
+			"option": "skipTimer",
+			"value": true
+		},
+		{
+			"option": "gradientTimeBar",
+			"value": false
+		},
+		{
 			"option": "uiSkin",
 			"value": "default"
 		},

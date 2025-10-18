@@ -79,6 +79,12 @@ class NoteTimer extends FlxTypedSpriteGroup<FlxSprite>
         super();
         this.instance = instance;
 
+        if (!Options.getData("noteTimer"))
+        {
+            skipped = true;
+            destroy();
+            return;
+        }
 
         timerCircle = new FlxSprite().loadGraphic(Paths.image("circleThing"));
         timerCircle.antialiasing = true;
@@ -104,18 +110,28 @@ class NoteTimer extends FlxTypedSpriteGroup<FlxSprite>
 
 
         firstNoteTime = getClosestNote();
-        if (firstNoteTime != FlxMath.MAX_VALUE_FLOAT && firstNoteTime > 5000 )
-        {
-            skipped = false;
-            skipText.visible = true;
-            skipText.alpha = 0;
-            PlayState.instance.tweenManager.tween(skipText, {alpha: 1}, 1, {ease:FlxEase.cubeInOut, startDelay: Conductor.crochet*0.001*5, onComplete: function(twn)
+        if (Options.getData("skipTimer") && firstNoteTime != FlxMath.MAX_VALUE_FLOAT && firstNoteTime > 5000)
             {
-                PlayState.instance.tweenManager.tween(skipText, {alpha: 0}, 1, {ease:FlxEase.cubeIn, startDelay: Conductor.crochet*0.001*5});
-            }});
-        }
-        else 
-            skipped = true;
+                skipped = false;
+                skipText.visible = true;
+                skipText.alpha = 0;
+
+                PlayState.instance.tweenManager.tween(skipText, {alpha: 1}, 1, {
+                    ease: FlxEase.cubeInOut,
+                    startDelay: Conductor.crochet * 0.001 * 5,
+                    onComplete: function(twn)
+                    {
+                        PlayState.instance.tweenManager.tween(skipText, {alpha: 0}, 1, {
+                            ease: FlxEase.cubeIn,
+                            startDelay: Conductor.crochet * 0.001 * 5
+                        });
+                    }
+                });
+            }
+            else 
+            {
+                skipped = true;
+            }
 
         //alpha = 0;
     }
@@ -225,7 +241,7 @@ class NoteTimer extends FlxTypedSpriteGroup<FlxSprite>
         {
            var firstNote = PlayState.playerStrums.members[0];
 
-            var offset = 70; // cámbialo a 50 si prefieres
+            var offset = 70; 
 
             timerCircle.x = firstNote.x - timerCircle.width - offset;
             timerText.x   = timerCircle.x + (timerCircle.width - timerText.width) / 2;

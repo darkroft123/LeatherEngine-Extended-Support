@@ -17,7 +17,7 @@ using cpp.Function;
 class DiscordClient {
 	public static var started(default, null):Bool = false;
 	public static var active(default, null):Bool = false;
-	public static var defaultID(default, null):String = "1230686862234882058";
+	public static var defaultID(default, null):String = "864980501004812369";
 	public static var ID(default, set):String = defaultID;
 
 	public static var presence(default, null):DiscordRichPresence = new DiscordRichPresence();
@@ -37,15 +37,21 @@ class DiscordClient {
 		handlers.errored = _onError.fromStaticFunction();
 		Discord.Initialize(ID, handlers.addressOf(), false, null);
 		started = true;
-		discordThread = Thread.create(() -> {
-			while (started) {
-				#if DISCORD_DISABLE_IO_THREAD
-				Discord.UpdateConnection();
-				#end
-				Discord.RunCallbacks();
-				Sys.sleep(1);
-			}
-		});
+		active = true;
+
+		if (discordThread == null) {
+			discordThread = Thread.create(() -> {
+				while (active) {
+					#if DISCORD_DISABLE_IO_THREAD
+					Discord.UpdateConnection();
+					#end
+					Discord.RunCallbacks();
+					Sys.sleep(1);
+				}
+				discordThread = null;
+				trace("Discord thread stopped.");
+			});
+		}
 	}
 
 	public static function shutdown() {
@@ -53,7 +59,13 @@ class DiscordClient {
 		trace("Discord: Shutting down...");
 		started = false;
 		active = false;
-		Discord.Shutdown();
+		Sys.sleep(0.05);
+		try {
+			Discord.Shutdown();
+		} catch (e) {
+			trace("Discord shutdown error: " + e);
+		}
+		trace("Discord: Shut down complete.");
 	}
 
 	private static function _onReady(request:RawConstPointer<DiscordUser>) {
@@ -110,7 +122,6 @@ class DiscordClient {
 			}
 			startup();
 			changePresence("", null, null, null, null, discordData.key, discordData.text);
-
 			trace('Discord RPC updated with mod presence: ID=${discordData.ID}, key=${discordData.key}');
 			return true;
 		} else {
@@ -134,7 +145,12 @@ class DiscordClient {
 
 	@:noCompletion
 	static inline function set_ID(newID:String):String {
-		return ID = newID;
+		if (ID == newID) return ID;
+		ID = newID;
+		shutdown();
+		startup();
+		updatePresence();
+		return newID;
 	}
 }
 

@@ -604,7 +604,7 @@ class Character extends ReflectedSprite {
 		if (singAnimPrefix != 'sing' && AnimName.contains('sing')) {
 			var anim:String = AnimName;
 			anim = anim.replace('sing', singAnimPrefix);
-			if (animation.getByName(anim) != null) // check if it exists so no broken anims
+			if (animation.getByName(anim) != null)
 				AnimName = anim;
 		}
 
@@ -617,21 +617,21 @@ class Character extends ReflectedSprite {
 			{
 				color = 0xFF545454;
 				preventDanceForAnim = true;
-				AnimName = AnimName.replace("dodge", singAnimPrefix); //swap back to sing
+				AnimName = AnimName.replace("dodge", singAnimPrefix);
 			}
 			else if (AnimName.contains("miss"))
 			{
 				color = 0xFF380045;
 				preventDanceForAnim = true;
-				AnimName = AnimName.replace("miss", ""); //remove miss to just place normal anim
+				AnimName = AnimName.replace("miss", "");
 			}
 			else if (AnimName.contains("parry"))
 			{
-				AnimName = AnimName.replace("parry", singAnimPrefix); //swap back to sing
+				AnimName = AnimName.replace("parry", singAnimPrefix);
 			}
 			else if (AnimName.contains("-mic"))
 			{
-				AnimName = AnimName.replace("-mic", ""); //remove -mic if not found
+				AnimName = AnimName.replace("-mic", "");
 			}
 			else if (AnimName.contains("-alt"))
 			{
@@ -639,68 +639,61 @@ class Character extends ReflectedSprite {
 			}
 		}
 
-
 		if (strumTime != null)
 		{
 			justHitStrumTime = strumTime;
 		}
 		else
 			justHitStrumTime = Conductor.songPosition;
-		
-		if (Math.abs(lastHitStrumTime - justHitStrumTime) < 50 && animation.curAnim != null || holdTimer >= Conductor.stepCrochet * singDuration * 0.001)
-		{
-			//trace('hit double');
 
-			var actor = this;
-			var Sprite:ReflectedSprite = new ReflectedSprite(actor.x, actor.y);
-			Sprite.drawFlipped = this.drawFlipped;
-			//copy sprite
-			Sprite.loadGraphicFromSprite(actor);
-			Sprite.alpha = 0.8 * actor.alpha;
-			Sprite.blend = ADD;
-			Sprite.color = barColor;
-			Sprite.angle = actor.angle;
-			Sprite.offset.x = actor.offset.x;
-			Sprite.offset.y = actor.offset.y;
-			Sprite.origin.x = actor.origin.x;
-			Sprite.origin.y = actor.origin.y;
-			Sprite.scale.x = actor.scale.x;
-			Sprite.scale.y = actor.scale.y;
-			Sprite.active = false;
-			Sprite.animation.frameIndex = actor.animation.frameIndex;
-			Sprite.flipX = actor.flipX;
-			Sprite.flipY = actor.flipY;
-			//Sprite.color = barColor;
-			Sprite.shader = rtxShader.copy().shader;
+		if (Options.getData("trails")) {
+			if (Math.abs(lastHitStrumTime - justHitStrumTime) < 50 && animation.curAnim != null || holdTimer >= Conductor.stepCrochet * singDuration * 0.001)
+			{
+				var actor = this;
+				var Sprite:ReflectedSprite = new ReflectedSprite(actor.x, actor.y);
+				Sprite.drawFlipped = this.drawFlipped;
+				Sprite.loadGraphicFromSprite(actor);
+				Sprite.alpha = 0.8 * actor.alpha;
+				Sprite.blend = ADD;
+				Sprite.color = barColor;
+				Sprite.angle = actor.angle;
+				Sprite.offset.x = actor.offset.x;
+				Sprite.offset.y = actor.offset.y;
+				Sprite.origin.x = actor.origin.x;
+				Sprite.origin.y = actor.origin.y;
+				Sprite.scale.x = actor.scale.x;
+				Sprite.scale.y = actor.scale.y;
+				Sprite.active = false;
+				Sprite.animation.frameIndex = actor.animation.frameIndex;
+				Sprite.flipX = actor.flipX;
+				Sprite.flipY = actor.flipY;
+				Sprite.shader = rtxShader.copy().shader;
+				Sprite.animation.play(animation.curAnim.name, Force, Reversed, Frame);
+				Sprite.offset.set(actor.offset.x, actor.offset.y);
+				Sprite.cameras = this.cameras;
+				(this.parent != null ? this.parent : FlxG.state).insert(FlxG.state.members.indexOf(this)-1, Sprite);
 
-			//play anim
-			Sprite.animation.play(animation.curAnim.name, Force, Reversed, Frame);
-			Sprite.offset.set(actor.offset.x, actor.offset.y);
-
-			//add
-			Sprite.cameras = this.cameras;
-			(this.parent != null ? this.parent : FlxG.state).insert(FlxG.state.members.indexOf(this)-1, Sprite);
-
-			var props:Dynamic = {alpha: 0};
-			switch (AnimName) {
-				case 'singLEFT':
-					props.x = actor.x - 150;
-				case 'singRIGHT':
-					props.x = actor.x + 150;
-				case 'singUP':
-					props.y = actor.y - 150;
-				case 'singDOWN':
-					props.y = actor.y + 150;
-			}
-
-			FlxTween.tween(Sprite, props, Conductor.crochet * 0.0025, {
-				ease: FlxEase.elasticInOut,
-				onComplete: function(twn:FlxTween) {
-					Sprite.destroy();
+				var props:Dynamic = {alpha: 0};
+				switch (AnimName) {
+					case 'singLEFT':
+						props.x = actor.x - 150;
+					case 'singRIGHT':
+						props.x = actor.x + 150;
+					case 'singUP':
+						props.y = actor.y - 150;
+					case 'singDOWN':
+						props.y = actor.y + 150;
 				}
-			});
 
+				FlxTween.tween(Sprite, props, Conductor.crochet * 0.0025, {
+					ease: FlxEase.elasticInOut,
+					onComplete: function(twn:FlxTween) {
+						Sprite.destroy();
+					}
+				});
+			}
 		}
+
 		lastHitStrumTime = justHitStrumTime;
 
 		if (atlasMode && atlas != null) {
@@ -709,8 +702,8 @@ class Character extends ReflectedSprite {
 			animation.play(AnimName, Force, Reversed, Frame);
 		}
 
-		preventDanceForAnim = false; // reset it
-		
+		preventDanceForAnim = false;
+
 		if (AnimName.contains('dodge'))
 			preventDanceForAnim = true;
 
@@ -721,6 +714,7 @@ class Character extends ReflectedSprite {
 		else
 			offset.set(offsetOffset[0], offsetOffset[1]);
 	}
+
 
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)
 		{

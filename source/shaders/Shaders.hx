@@ -135,10 +135,21 @@ class RTXEffect extends ShaderEffect
         
         if (parentSprite != null)
         {
-            var parentSprite:FlxFrame = parentSprite.frame; 
-            if (parentSprite.frame != null)
-            shader.frameBounds.value = [ parentSprite.frame.x, parentSprite.frame.y, parentSprite.frame.width, parentSprite.frame.height ];
+            if (Reflect.hasField(parentSprite, "frame") && parentSprite.frame != null)
+            {
+                var frame = parentSprite.frame;
+                if (frame.frame != null)
+                {
+                    shader.frameBounds.value = [
+                        frame.frame.x,
+                        frame.frame.y,
+                        frame.frame.width,
+                        frame.frame.height
+                    ];
+                }
+            }
         }
+
     }
 
     public function copy()

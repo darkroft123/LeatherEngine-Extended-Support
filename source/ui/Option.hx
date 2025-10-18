@@ -1,5 +1,6 @@
 package ui;
 
+import flixel.math.FlxMath;
 import flixel.FlxSubState;
 import haxe.extern.EitherType;
 import flixel.group.FlxSpriteContainer;
@@ -22,7 +23,7 @@ import flixel.FlxG;
 import ui.ModIcon;
 import flixel.util.typeLimit.NextState;
 import flixel.tweens.*;
-
+import game.Conductor;
 /**
  * The base option class that all options inherit from.
  */
@@ -482,6 +483,35 @@ class DeveloperOption extends BoolOption {
 		super.changeValue();
 	}
 }
+/*class TimeSkipOption extends Option
+{
+	public static var curTime:Float = 0;
+
+	override public function new()
+	{
+		super("Time Skip", "Skip to a specific time in the song", "timeSkip");
+		curTime = Conductor.songPosition;
+	}
+
+	override public function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (Std.int(alphabetText.targetY) == 0)
+		{
+			var shiftMult = 1.0;
+			if (FlxG.keys.pressed.SHIFT)
+				shiftMult = 10.0;
+			if (FlxG.keys.justPressed.LEFT)
+				curTime -= 1000 * shiftMult;
+			else if (FlxG.keys.justPressed.RIGHT)
+				curTime += 1000 * shiftMult;
+
+			curTime = FlxMath.bound(curTime, Conductor.songPosition, FlxG.sound.music.length);
+			alphabetText.text = "Skip To Time: " + flixel.util.FlxStringUtil.formatTime(curTime / 1000, false);
+		}
+	}
+}*/
 
 /**
  * Very simple option that opens a webpage when selected

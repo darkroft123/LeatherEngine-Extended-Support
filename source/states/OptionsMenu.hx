@@ -22,6 +22,7 @@ class OptionsMenu extends MusicBeatState {
 			new PageOption("Gameplay", "Gameplay", "Change gameplay-related options,\nsuch as downscroll and ghost tapping."),
 			new PageOption("Graphics", "Graphics", "Change graphical-related options,\nsuch as max FPS."),
 			new PageOption("Misc", "Misc", "Change miscellaneous options that\ndon't fit in the other categories."),
+			new PageOption("Plus Options", "Plus Options", "More Options"),
 			#if MODDING_ALLOWED
 			new PageOption("Mod Options", "Mod Options", "Change options for specific mods."),
 			#end
@@ -172,6 +173,14 @@ class OptionsMenu extends MusicBeatState {
 			new StepperSaveDeveloperOption("Chart Backup Interval", 1, 10, "backupDuration", 1,
 				"Change how long the game will wait\nbefore creating a chart backup.\n(in minutes.)"),
 		],
+		"Plus Options" => [
+			new PageOption("Back", "Categories", "Go back to the main menu."),
+			new BoolOption("Trail", "trails", "When toggled, disable trail in sprites"),
+			new BoolOption("NoteTimer", "noteTimer", "When toggled, disables the circular note timer UI."),
+			new BoolOption("SkipTimer", "skipTimer", "When toggled, disables the 'PRESS SHIFT TO SKIP INTRO' message."),
+			new BoolOption("GradientTimeBar", "gradientTimeBar", "When toggled, enables gradient colors on the time bar."),
+		],
+
 		#if MODDING_ALLOWED
 		"Mod Options" => [new PageOption("Back", "Categories", "Go back to the main menu."),]
 		#end

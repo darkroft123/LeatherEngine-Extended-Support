@@ -18,309 +18,247 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import openfl.utils.Assets;
 import ui.Option;
-import modding.helpers.FlxTweenUtil;
+import flixel.FlxSubState;
 
 using StringTools;
 
-@:publicFields
 class PauseSubState extends MusicBeatSubstate {
-	var grpMenuShit:FlxTypedGroup<Alphabet> = new FlxTypedGroup<Alphabet>();
+	var grpMenuShit = new FlxTypedGroup<Alphabet>();
+	var curSelected = 0;
+	var menu = "default";
+	var warningAmountLols = 0;
+	var curTime = Math.max(0, Conductor.songPosition);
+	var holdTime = 0.0;
+	var justPressedAcceptLol = true;
+	var pauseCamera = new FlxCamera();
+	var pauseMusic:FlxSound;
+	var scoreWarning:FlxText;
 
-	var curSelected:Int = 0;
+	public var MAX_MUSIC_VOLUME = 0.5;
+	public var MUSIC_INCREASE_SPEED = 0.02;
 
-	var menus:Map<String, Array<String>> = [
-		"default" => ['Resume', 'Restart Song', 'Options', 'Exit To Menu'],
-		"restart" => ['Back', 'No Cutscenes', 'With Cutscenes'],
+	var menus = [
+		"default" => ['Resume', 'Restart Song','Quickly Options','Edit Keybinds','Options','Exit To Menu'],
+		"Quickly Options" => ['Back', 'Bot', 'Auto Restart', 'No Miss', 'Ghost Tapping', 'No Death']
 	];
-
-	var menu:String = "default";
-
-	var pauseMusic:FlxSound = new FlxSound().loadEmbedded(Paths.music('breakfast'
-		+ (Assets.exists(Paths.music('breakfast-' + PlayState.boyfriend.curCharacter, 'shared')) ? '-' + PlayState.boyfriend.curCharacter : ''),
-		'shared'),
-		true, true);
-
-	var pauseCamera:FlxCamera = new FlxCamera();
-
-	var curTime:Float = Math.max(0, Conductor.songPosition);
 
 	public function new() {
 		super();
-
-		pauseCamera.bgColor.alpha = 0;
-		FlxG.cameras.add(pauseCamera, false);
-
-		var optionsArray = menus.get("default");
-
-		if (PlayState.chartingMode) {
-			optionsArray.insert(optionsArray.length - 1, "Skip Time");
-			menus.set("default", optionsArray);
-		}
-		if(Options.getData("developer") && PlayState.isStoryMode){
-			optionsArray.insert(2, "Skip Song");
-		}
-
+		var skin = PlayState.boyfriend.curCharacter;
+		var path = Paths.music('breakfast' + (Assets.exists(Paths.music('breakfast-' + skin, 'shared')) ? '-' + skin : ''), 'shared');
+		pauseMusic = new FlxSound().loadEmbedded(path, true, true);
 		pauseMusic.volume = 0;
 		pauseMusic.play();
 		FlxG.sound.list.add(pauseMusic);
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		pauseCamera.bgColor.alpha = 0;
+		FlxG.cameras.add(pauseCamera, false);
+
+		if (PlayState.chartingMode) {
+			var opts = menus.get("default");
+			opts.insert(opts.length - 1, "Skip Time");
+			menus.set("default", opts);
+		}
+
+		var bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
 		bg.scrollFactor.set();
 		add(bg);
 
-		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
-		levelInfo.text = PlayState.SONG.song;
-		levelInfo.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
-		levelInfo.updateHitbox();
-		add(levelInfo);
+		var song = new FlxText(20, 15, 0, PlayState.SONG.song, 32);
+		song.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		song.x = FlxG.width - (song.width + 20);
+		add(song);
 
-		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
-		levelDifficulty.text = PlayState.storyDifficultyStr.toUpperCase();
-		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32, FlxColor.WHITE, RIGHT);
-		levelDifficulty.updateHitbox();
-		add(levelDifficulty);
+		var diff = new FlxText(20, 47, 0, PlayState.storyDifficultyStr.toUpperCase(), 32);
+		diff.setFormat(Paths.font('vcr.ttf'), 32, FlxColor.WHITE, RIGHT);
+		diff.x = FlxG.width - (diff.width + 20);
+		add(diff);
 
-		levelDifficulty.alpha = 0;
-		levelInfo.alpha = 0;
+		scoreWarning = new FlxText(20, 79, 0, "Remember, changing options invalidates your score!", 32);
+		scoreWarning.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		scoreWarning.screenCenter(X);
+		add(scoreWarning);
 
-		levelInfo.x = FlxG.width - (levelInfo.width + 20);
-		levelDifficulty.x = FlxG.width - (levelDifficulty.width + 20);
+		for (t in [song, diff, scoreWarning]) t.alpha = 0;
 
-		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
-		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
-		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
+		FlxTween.tween(bg, {alpha: 0.35}, 0.4, {ease: FlxEase.quartInOut});
+		FlxTween.tween(song, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		FlxTween.tween(diff, {alpha: 1, y: diff.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
+		FlxTween.tween(scoreWarning, {alpha: 1, y: scoreWarning.y + 10}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+		FlxTween.tween(scoreWarning, {alpha: 0, y: scoreWarning.y - 10}, 0.4, {ease: FlxEase.quartInOut, startDelay: 4});
 
 		add(grpMenuShit);
-
 		updateAlphabets();
-
-		cameras = [pauseCamera];
-		if (PlayState.instance.usedLuaCameras)
-			cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+		cameras = PlayState.instance.usedLuaCameras ? [FlxG.cameras.list[FlxG.cameras.list.length - 1]] : [pauseCamera];
 	}
-
-	var justPressedAcceptLol:Bool = true;
-
-	var holdTime:Float = 0;
-
-	public var MAX_MUSIC_VOLUME:Float = 0.5;
-	public var MUSIC_INCREASE_SPEED:Float = 0.02;
 
 	override function update(elapsed:Float) {
-		if (pauseMusic.volume < MAX_MUSIC_VOLUME)
-			pauseMusic.volume += MUSIC_INCREASE_SPEED * elapsed;
-
+		if (pauseMusic.volume < MAX_MUSIC_VOLUME) pauseMusic.volume += MUSIC_INCREASE_SPEED * elapsed;
 		super.update(elapsed);
 
-		var upP = controls.UP_P;
-		var downP = controls.DOWN_P;
-		var accepted = controls.ACCEPT;
+		if (!controls.ACCEPT) justPressedAcceptLol = false;
+		if (controls.UP_P) changeSelection(-1);
+		if (controls.DOWN_P) changeSelection(1);
+		if (FlxG.mouse.wheel != 0) changeSelection(-Math.floor(FlxG.mouse.wheel));
+		if (FlxG.keys.justPressed.F6) PlayState.instance.toggleBotplay();
 
-		if (!accepted)
-			justPressedAcceptLol = false;
+		if (menus.get(menu)[curSelected].toLowerCase().contains("skip time")) handleSkipTime(elapsed);
 
-		if (-1 * Math.floor(FlxG.mouse.wheel) != 0)
-			changeSelection(-1 * Math.floor(FlxG.mouse.wheel));
-		if (upP)
-			changeSelection(-1);
-		if (downP)
-			changeSelection(1);
-
-		if (FlxG.keys.justPressed.F6) {
-			PlayState.instance.toggleBotplay();
-		}
-
-		if (menus.get(menu)[curSelected].toLowerCase().contains("skip time")) {
-			if (controls.LEFT_P) {
-				curTime -= 1000;
-				holdTime = 0;
-				updateAlphabets(false);
-			}
-			if (controls.RIGHT_P) {
-				curTime += 1000;
-				holdTime = 0;
-				updateAlphabets(false);
-			}
-
-			if (controls.LEFT || controls.RIGHT) {
-				holdTime += elapsed;
-				if (holdTime > 0.5) {
-					curTime += 45000 * elapsed * (controls.LEFT ? -1 : 1);
-				}
-
-				if (curTime >= FlxG.sound.music.length)
-					curTime -= FlxG.sound.music.length;
-				else if (curTime < 0)
-					curTime += FlxG.sound.music.length;
-				updateAlphabets(false);
-			}
-		}
-
-		if (accepted && !justPressedAcceptLol) {
+		if (controls.ACCEPT && !justPressedAcceptLol) {
 			justPressedAcceptLol = true;
-
-			var daSelected:String = menus.get(menu)[curSelected];
-
-			switch (daSelected.toLowerCase()) {
-				case "resume":
-					pauseMusic.stop();
-					pauseMusic.destroy();
-					FlxG.sound.list.remove(pauseMusic);
-					FlxG.cameras.remove(pauseCamera);
-					PlayState.instance.call("onResume", []);
-					#if LUA_ALLOWED
-					for(tween in modding.scripts.languages.LuaScript.lua_Tweens){
-						FlxTweenUtil.resumeTween(tween);
-					}
-					#end
-					close();
-				case "restart song":
-					menu = "restart";
-					updateAlphabets();
-				case "skip song":
-					PlayState.SONG.validScore = false;
-					pauseMusic.stop();
-					pauseMusic.destroy();
-					FlxG.sound.list.remove(pauseMusic);
-					FlxG.cameras.remove(pauseCamera);
-					PlayState.instance.call("onResume", []);
-					#if LUA_ALLOWED
-					for(tween in modding.scripts.languages.LuaScript.lua_Tweens){
-						FlxTweenUtil.resumeTween(tween);
-					}
-					#end
-					close();
-					PlayState.instance.endSong();
-				case "no cutscenes":
-					PlayState.SONG.speed = PlayState.previousScrollSpeed;
-					PlayState.playCutscenes = true;
-					PlayState.SONG.keyCount = PlayState.instance.ogKeyCount;
-					PlayState.SONG.playerKeyCount = PlayState.instance.ogPlayerKeyCount;
-
-					pauseMusic.stop();
-					pauseMusic.destroy();
-					FlxG.sound.list.remove(pauseMusic);
-					FlxG.cameras.remove(pauseCamera);
-
-					FlxG.resetState();
-				case "with cutscenes":
-					PlayState.SONG.speed = PlayState.previousScrollSpeed;
-
-					PlayState.SONG.keyCount = PlayState.instance.ogKeyCount;
-					PlayState.SONG.playerKeyCount = PlayState.instance.ogPlayerKeyCount;
-
-					pauseMusic.stop();
-					pauseMusic.destroy();
-					FlxG.sound.list.remove(pauseMusic);
-					FlxG.cameras.remove(pauseCamera);
-
-					FlxG.resetState();
-				case "skip time":
-					if (curTime < Conductor.songPosition) {
-						PlayState.startOnTime = curTime;
-						PlayState.SONG.speed = PlayState.previousScrollSpeed;
-						PlayState.playCutscenes = true;
-
-						PlayState.SONG.keyCount = PlayState.instance.ogKeyCount;
-						PlayState.SONG.playerKeyCount = PlayState.instance.ogPlayerKeyCount;
-
-						pauseMusic.stop();
-						pauseMusic.destroy();
-						FlxG.sound.list.remove(pauseMusic);
-						FlxG.cameras.remove(pauseCamera);
-						FlxG.resetState();
-					} else {
-						if (curTime != Conductor.songPosition) {
-							PlayState.instance.clearNotesBefore(curTime);
-							PlayState.instance.setSongTime(curTime);
-						}
-						pauseMusic.stop();
-						pauseMusic.destroy();
-						FlxG.sound.list.remove(pauseMusic);
-						FlxG.cameras.remove(pauseCamera);
-						close();
-					};
-				case "options":
-					{
-						pauseMusic.stop();
-						pauseMusic.destroy();
-						FlxG.sound.list.remove(pauseMusic);
-						FlxG.cameras.remove(pauseCamera);
-						FlxG.switchState(() -> new PauseOptions());
-						PlayState.chartingMode = false;
-					}
-				case "back":
-					menu = "default";
-					updateAlphabets();
-				case "exit to menu":
-					pauseMusic.stop();
-					pauseMusic.destroy();
-					FlxG.sound.list.remove(pauseMusic);
-					FlxG.cameras.remove(pauseCamera);
-					PlayState.chartingMode = false;
-
-					if (PlayState.isStoryMode) {
-						FlxG.switchState(() -> new StoryMenuState());
-					} else {
-						FlxG.switchState(() -> new FreeplayState());
-					}
-			}
+			handleSelection(menus.get(menu)[curSelected]);
 		}
 	}
 
-	function updateAlphabets(?jump:Bool = true) {
+	function handleSkipTime(elapsed:Float) {
+		if (controls.LEFT_P) curTime -= 1000;
+		if (controls.RIGHT_P) curTime += 1000;
+		if (controls.LEFT || controls.RIGHT) {
+			holdTime += elapsed;
+			if (holdTime > 0.5) curTime += 45000 * elapsed * (controls.LEFT ? -1 : 1);
+			if (curTime >= FlxG.sound.music.length) curTime -= FlxG.sound.music.length;
+			if (curTime < 0) curTime += FlxG.sound.music.length;
+		}
+		updateAlphabets(false, false);
+	}
+
+	function updateAlphabets(?jump:Bool = true, ?playSound:Bool = true) {
 		grpMenuShit.clear();
+		var defaultMenu = menus.get("default").copy();
+		var playAs = utilities.Options.getData("playAs");
+		defaultMenu = defaultMenu.filter(function(item) return !item.toLowerCase().startsWith("play as"));
+		defaultMenu.push("Play As: " + playAs.charAt(0).toUpperCase() + playAs.substr(1));
+		menus.set("default", defaultMenu);
 
 		for (i in 0...menus.get(menu).length) {
-			if (menus.get(menu)[i].toLowerCase().contains('skip time')) {
-				var songText:Alphabet = new Alphabet(0, (70 * i)
-					+ 30,
-					"Skip Time "
-					+ FlxStringUtil.formatTime(Math.max(0, Math.floor(curTime / 1000)), false)
-					+ ' / '
-					+ FlxStringUtil.formatTime(Math.max(0, Math.floor(FlxG.sound.music.length / 1000)), false),
-					true);
-				songText.isMenuItem = true;
-				songText.targetY = i;
-
-				grpMenuShit.add(songText);
-			} else {
-				var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menus.get(menu)[i], true);
-				songText.isMenuItem = true;
-				songText.targetY = i;
-
-				grpMenuShit.add(songText);
-			}
+			var txt = menus.get(menu)[i];
+			var content = txt.toLowerCase().contains("skip time") 
+				? "Skip Time " + FlxStringUtil.formatTime(Math.floor(curTime / 1000), false) + " / " + FlxStringUtil.formatTime(Math.floor(FlxG.sound.music.length / 1000), false) 
+				: txt;
+			var songText = new Alphabet(0, (70 * i) + 30, content, true);
+			songText.isMenuItem = true;
+			songText.targetY = i;
+			grpMenuShit.add(songText);
 		}
 
-		if (jump)
+		if (jump && !(menus.get(menu)[curSelected].toLowerCase().startsWith("play as"))) {
 			curSelected = 0;
-		else
-			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		} 
+		else if (playSound) FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+
 		changeSelection();
 	}
 
-	function changeSelection(change:Int = 0):Void {
+	function handleSelection(sel:String) {
+		var s = sel.toLowerCase().trim();
+		switch(s) {
+			case "resume": closePause(); return;
+			case "restart song": restartSong(); return;
+			case "quickly options": switchMenu("Quickly Options"); return;
+			case "edit keybinds": openSub(new ControlMenuSubstate()); return;
+			case "options": openOptions(); return;
+			case "back": switchMenu("default"); return;
+			case "exit to menu": exitToMenu(); return;
+			case "bot": toggleOption("botplay", true); return;
+			case "auto restart": toggleOption("quickRestart"); return;
+			case "no miss": toggleOption("noHit"); return;
+			case "ghost tapping": toggleOption("ghostTapping", true); return;
+			case "no death": toggleOption("noDeath", true); return;
+			case "skip time": skipTimeAction(); return;
+			default:
+				if(s.startsWith("play as")) {
+					var current = utilities.Options.getData("playAs");
+					if(current == "bf") utilities.Options.setData("opponent", "playAs");
+					else utilities.Options.setData("bf", "playAs");
+					updateAlphabets(false);
+					return;
+				}
+		}
+	}
+
+	function toggleOption(opt:String, invalidate:Bool = false) {
+		utilities.Options.setData(!utilities.Options.getData(opt), opt);
+		if (invalidate || opt != "quickRestart") PlayState.SONG.validScore = false;
+		showWarning();
+	}
+
+	function showWarning() {
+		FlxTween.tween(scoreWarning, {alpha: 1}, 0.4, {ease: FlxEase.quartInOut});
+		FlxTween.tween(scoreWarning, {alpha: 0}, 0.4, {ease: FlxEase.quartInOut, startDelay: 3});
+		warningAmountLols++;
+	}
+
+	function closePause() {
+		stopPauseMusic();
+		PlayState.instance.call("onResume", []);
+		close();
+	}
+
+	function restartSong() {
+		resetSongValues();
+		stopPauseMusic();
+		FlxG.resetState();
+	}
+
+	function openOptions() {
+		stopPauseMusic();
+		FlxG.switchState(() -> new PauseOptions());
+	}
+
+	function exitToMenu() {
+		stopPauseMusic();
+		FlxG.switchState(PlayState.isStoryMode ? () -> new StoryMenuState() : new FreeplayState());
+	}
+
+	function skipTimeAction() {
+		if (curTime < Conductor.songPosition) {
+			PlayState.startOnTime = curTime;
+			resetSongValues();
+			stopPauseMusic();
+			FlxG.resetState();
+		} else {
+			if (curTime != Conductor.songPosition) {
+				PlayState.instance.clearNotesBefore(curTime);
+				PlayState.instance.setSongTime(curTime);
+			}
+			stopPauseMusic();
+			close();
+		}
+	}
+
+	function stopPauseMusic() {
+		pauseMusic.stop();
+		pauseMusic.destroy();
+		FlxG.sound.list.remove(pauseMusic);
+		FlxG.cameras.remove(pauseCamera);
+	}
+
+	function switchMenu(newMenu:String) {
+		menu = newMenu;
+		updateAlphabets();
+	}
+
+	function openSub(sub:FlxSubState) {
+		sub.cameras = [pauseCamera];
+		openSubState(sub);
+	}
+
+	function resetSongValues() {
+		PlayState.SONG.speed = PlayState.previousScrollSpeed;
+		PlayState.SONG.keyCount = PlayState.instance.ogKeyCount;
+		PlayState.SONG.playerKeyCount = PlayState.instance.ogPlayerKeyCount;
+		PlayState.SONG.validScore = true;
+	}
+
+	function changeSelection(change:Int = 0) {
 		FlxG.sound.play(Paths.sound('scrollMenu'));
-
-		curSelected += change;
-
-		if (curSelected < 0)
-			curSelected = menus.get(menu).length - 1;
-		if (curSelected >= menus.get(menu).length)
-			curSelected = 0;
-
-		var bullShit:Int = 0;
-
+		curSelected = (curSelected + change + menus.get(menu).length) % menus.get(menu).length;
+		var i = 0;
 		for (item in grpMenuShit.members) {
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-
-			if (item.targetY == 0)
-				item.alpha = 1;
+			item.targetY = i - curSelected;
+			item.alpha = item.targetY == 0 ? 1 : 0.6;
+			i++;
 		}
 	}
 }
@@ -331,7 +269,6 @@ class PauseOptions extends OptionsMenu {
 			loadPage(cast(page.members[0], PageOption).pageName);
 			return;
 		}
-
 		FlxG.switchState(() -> new PlayState());
 	}
 }
