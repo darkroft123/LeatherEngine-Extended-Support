@@ -24,7 +24,7 @@
 --define hscript
 --define hscriptPos
 --define polymod
---define LUA_ALLOWED
+--define linc_luajit
 --define VIDEOS_ALLOWED
 --define MODDING_ALLOWED
 --define MODCHARTING_TOOLS

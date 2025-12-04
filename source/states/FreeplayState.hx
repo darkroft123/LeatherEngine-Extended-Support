@@ -7,9 +7,7 @@ import haxe.Json;
 #if (target.threaded)
 import sys.thread.Thread;
 #end
-#if DISCORD_ALLOWED
-import utilities.DiscordClient;
-#end
+
 import game.Conductor;
 import utilities.Options;
 import flixel.util.FlxTimer;
@@ -123,11 +121,7 @@ class FreeplayState extends MusicBeatState {
 		if (curSelected > songs.length)
 			curSelected = 0;
 
-		#if DISCORD_ALLOWED
-		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
-		#end
-
+		
 		add(bg = new FlxSprite().makeBackground(0xFFE1E1E1));
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
@@ -232,7 +226,9 @@ class FreeplayState extends MusicBeatState {
 		infoText.scrollFactor.set();
 		infoText.screenCenter(X);
 		add(infoText);
-
+		#if mobile
+		addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
+		#end
 		super.create();
 		call("createPost");
 	}
@@ -248,9 +244,10 @@ class FreeplayState extends MusicBeatState {
 		}*/
 	override function update(elapsed:Float) {
 		call("update", [elapsed]);
-		#if MODDING_ALLOWED
-		if (FlxG.keys.justPressed.TAB) {
+		#if sys
+		if(#if mobile virtualPad.buttonC.justPressed || #end FlxG.keys.justPressed.TAB){
 			openSubState(new modding.SwitchModSubstate());
+			#if mobile removeVirtualPad(); #end
 			persistentUpdate = false;
 		}
 		#end
@@ -306,7 +303,7 @@ class FreeplayState extends MusicBeatState {
 
 		var leftP = controls.LEFT_P;
 		var rightP = controls.RIGHT_P;
-		var shift = FlxG.keys.pressed.SHIFT;
+		var shift = #if mobile virtualPad.buttonZ.pressed  || #end FlxG.keys.pressed.SHIFT;
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -356,7 +353,7 @@ class FreeplayState extends MusicBeatState {
 			var curSong:FreeplaySong = songs[curSelected];
 
 			#if PRELOAD_ALL
-			if (FlxG.keys.justPressed.SPACE) {
+			if (#if mobile virtualPad.buttonZ.pressed || #end FlxG.keys.justPressed.SPACE) {
 				destroyFreeplayVocals();
 
 				// TODO: maybe change this idrc actually it seems ok now
@@ -396,15 +393,16 @@ class FreeplayState extends MusicBeatState {
 
 			if (FlxG.sound.music.active && FlxG.sound.music.playing && !FlxG.keys.justPressed.ENTER)
 				FlxG.sound.music.pitch = curSpeed;
-			if (vocals != null && vocals.active && vocals.playing && !FlxG.keys.justPressed.ENTER)
+			
+			if (vocals != null && vocals.active && vocals.playing #if mobile && !virtualPad.buttonA.justPressed #end || !FlxG.keys.justPressed.ENTER)
 				vocals.pitch = curSpeed;
 
-			if (controls.RESET && !shift) {
+			if (#if mobile virtualPad.buttonY.justPressed || #end controls.RESET && !shift) {
 				openSubState(new ResetScoreSubstate(curSong.name, curDiffString));
 				changeSelection();
 			}
 
-			if (FlxG.keys.justPressed.ENTER) {
+			if (#if mobile virtualPad.buttonA.justPressed || #end FlxG.keys.justPressed.ENTER) {
 				playSong(curSong.name, curDiffString);
 			}
 		}
@@ -532,6 +530,10 @@ class FreeplayState extends MusicBeatState {
 
 	override function closeSubState() {
 		changeSelection();
+		#if mobile
+		removeVirtualPad();
+		addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
+		#end
 		FlxG.mouse.visible = false;
 		super.closeSubState();
 	}

@@ -24,6 +24,10 @@ import ui.ModIcon;
 import flixel.util.typeLimit.NextState;
 import flixel.tweens.*;
 import game.Conductor;
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.gamepad.FlxGamepad;
+import flixel.FlxCamera;
+import states.PlayState;
 /**
  * The base option class that all options inherit from.
  */
@@ -50,6 +54,42 @@ class Option extends FlxSpriteContainer {
 		alphabetText = new Alphabet(20, 20, optionName, true);
 		alphabetText.isMenuItem = true;
 		add(alphabetText);
+	}
+
+	public function getAlphabetWidth()
+	{
+		return alphabetText.width;
+	}
+
+	public function isSelected()
+	{
+		#if mobile
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.justPressed)
+			{
+				if (Std.int(alphabetText.targetY) == 0)
+				{
+					var cam:FlxCamera = FlxG.camera;
+					if (PlayState.instance != null && FlxG.state == PlayState.instance)
+						cam = PlayState.instance.camHUD;
+					if (MobileControls.checkTouchOverlap(touch, alphabetText.x, alphabetText.y, getAlphabetWidth(), alphabetText.height, cam))
+					{
+						return true;
+					}
+				}
+			}
+		}
+		#end
+		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+		if (gamepad != null)
+		{
+			if (gamepad.anyJustPressed([FlxGamepadInputID.A, FlxGamepadInputID.START]))
+			{
+				return true;
+			}
+		}
+		return FlxG.keys.justPressed.ENTER;
 	}
 }
 

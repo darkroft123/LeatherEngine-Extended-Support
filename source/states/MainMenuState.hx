@@ -118,7 +118,8 @@ class MainMenuState extends MusicBeatState {
 		add(versionShit);
 
 		#if MODDING_ALLOWED
-		var switchInfo:FlxText = new FlxText(5, versionShit.y - versionShit.height, 0, 'Hit TAB to switch mods.', 16);
+		final buttonTab:String = controls.mobileC ? 'C' : 'TAB';
+		var switchInfo:FlxText = new FlxText(5, versionShit.y - versionShit.height, 0, 'Hit $buttonTab to switch mods.', 16);
 		switchInfo.scrollFactor.set();
 		switchInfo.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
 		add(switchInfo);
@@ -135,6 +136,9 @@ class MainMenuState extends MusicBeatState {
 
 		super.create();
 
+		#if mobile
+		addVirtualPad(UP_DOWN, #if MODDING_ALLOWED A_B_C #else A_B #end);
+		#end
 		call("createPost");
 	}
 

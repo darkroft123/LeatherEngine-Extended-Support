@@ -218,7 +218,7 @@ class EventHandler {
 					game.call("create", [game.stage.stage], STAGE);
 					game.call("createStage", [game.stage.stage]);
 
-					#if LUA_ALLOWED
+					#if linc_luajit
 					if (game.stage.stageScript != null) {
 						if (game.stage.stageScript is LuaScript)
 							game.stage.stageScript.setup();
@@ -267,7 +267,7 @@ class EventHandler {
 				#if MODCHARTING_TOOLS
 				modcharting.NoteMovement.getDefaultStrumPos(game);
 				#end
-				#if LUA_ALLOWED
+				#if linc_luajit
 				game.set("playerKeyCount", newPlayerKeyCount);
 				game.set("keyCount", newKeyCount);
 				for (i in 0...PlayState.strumLineNotes.length) {

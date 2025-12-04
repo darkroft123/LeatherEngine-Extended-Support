@@ -7,18 +7,23 @@ import flixel.util.FlxColor;
 import flixel.text.FlxText;
 
 class FlashingLightsMenu extends MusicBeatState {
-	public var text:FlxText;
-	public var canInput:Bool = true;
+	private var text:FlxText;
+	private var canInput:Bool = true;
 
 	override public function create() {
 		super.create();
 
-		text = new FlxText(0, 0, 0, 'This game has flashing lights!\nPress Y to enable them, or N to disable them.\n(Either key closes takes you to the title screen.)',
+		final buttonY:String = controls.mobileC ? 'A' : 'Y';
+		final buttonN:String = controls.mobileC ? 'B' : 'N';
+
+		text = new FlxText(0, 0, 0, 'This game has flashing lights!\nPress $buttonY to enable them, or $buttonN to disable them.\n(Either ${controls.mobileC ? 'button' : 'key'} closes takes you to the title screen.)',
 			32);
 		text.font = Paths.font('vcr.ttf');
 		text.screenCenter();
-		text.alignment = CENTER;
 		add(text);
+		#if mobile
+		addVirtualPad(NONE, A_B);
+		#end
 	}
 
 	override function update(elapsed:Float) {
@@ -28,8 +33,8 @@ class FlashingLightsMenu extends MusicBeatState {
 			return;
 		}
 
-		var yes:Bool = FlxG.keys.justPressed.Y;
-		var no:Bool = FlxG.keys.justPressed.N;
+		var yes:Bool = #if mobile virtualPad.buttonA.justPressed || #end FlxG.keys.justPressed.Y;
+		var no:Bool = #if mobile virtualPad.buttonB.justPressed || #end FlxG.keys.justPressed.N;
 
 		if (yes) {
 			Options.setData(true, 'flashingLights');
@@ -42,7 +47,7 @@ class FlashingLightsMenu extends MusicBeatState {
 
 			FlxTween.tween(text, {alpha: 0}, 2.0, {
 				ease: FlxEase.cubeInOut,
-				onComplete: (_) -> FlxG.switchState(() -> new TitleState())
+				onComplete: (_) -> FlxG.switchState(new TitleState())
 			});
 
 			canInput = false;

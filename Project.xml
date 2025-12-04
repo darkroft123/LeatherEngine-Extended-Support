@@ -4,196 +4,166 @@
 	xsi:schemaLocation="http://lime.openfl.org/project/1.0.4 http://lime.openfl.org/xsd/project-1.0.4.xsd">
 
 	<!-- Application Settings -->
-	<!-- Change things about the exported file, such as executable name or version number. -->
-	<!-- You likely will want to change these if you're making a source mod. -->
 	<app
-		title="Leather Engine"
-		file="LeatherEngine"
-		packageName="com.leather128.funkin"
-		package="com.leather128.funkin"
-		version="1.1.6 - Custom Build"
-		company="leather128"
+		title="Dark's Collection"
+		file="Dark's Collection"
+		packageName="com.darkroft.funkin"
+		package="com.darkroft.funkin"
+		version="0.5.0pre"
+		company="darkroft"
 	/>
 
 	<!-- LEATHER ENGINE CUSTOMIZATION -->
-	<!-- Comment out or delete a line to disable a feature. -->
-	<define name="VIDEOS_ALLOWED" if="web || windows" unless="32bit"/> <!--  Allows support for video files -->
-	<define name="DISCORD_ALLOWED" /> <!--  Allows support for Discord Rich Presence -->
-	<define name="MODDING_ALLOWED" /> <!-- Allows mod loading -->
+	<define name="VIDEOS_ALLOWED" if="web || windows" unless="32bit"/>
+	<define name="DISCORD_ALLOWED" if="desktop"/>
 
-	<define name="MODCHARTING_TOOLS" /> <!--  Allows for Modcharting Tools to be used. -->
+	<define name="MODDING_ALLOWED"/>
+	<define name="MODCHARTING_TOOLS"/>
 
-	<define name="LUA_ALLOWED" /> <!--  Allows support for Lua scripting -->
-	<define name="HSCRIPT_ALLOWED" /> <!--  Allows support for Haxe scripting (HScript) -->
+	<define name="HSCRIPT_ALLOWED"/>
+	<define name="CHECK_FOR_UPDATES"/>
 
-	<define name="CHECK_FOR_UPDATES" /> <!-- Allows the game to connect to GitHub to check for an
-	update -->
+	<define name="COMPILE_ALL_CLASSES" if="HSCRIPT_ALLOWED"/>
+	<define name="CUSTOM_CLASSES" if="HSCRIPT_ALLOWED"/>
+	<define name="BIT_64" unless="32bit"/>
 
-	<!-- 
-	Allows for all flixel classes to be used in scripts.
-	If you remove this it will HEAVILY speed up compile times, at the cost of limited class
-	availability in HScript.
-	-->
-	<define name="COMPILE_ALL_CLASSES" if="HSCRIPT_ALLOWED" />
+	<haxedef name="LINC_LUA_RELATIVE_DYNAMIC_LIB"/>
+	<app preloader="flixel.system.FlxPreloader"/>
 
-	<define name="CUSTOM_CLASSES" if="HSCRIPT_ALLOWED" /> <!-- Allows for custom classe to be used in
-	HScript -->
-
-
-	<!-- REMOVE this line to enable a 32 bit export. -->
-	<define name="BIT_64" unless="32bit" />
-
-	<!-- You can ignore the stuff below this line unless you know what you're doing -->
-	<app preloader="flixel.system.FlxPreloader" />
+	<set name="SWF_VERSION" value="11.8" />
 
 	<!-- Window Settings -->
+	<window width="1280" height="720" background="#000000" hardware="true" vsync="false" allow-high-dpi="true"/>
+	<window if="html5" resizable="true"/>
+	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
+	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" allow-shaders="true" require-shaders="true" allow-high-dpi="true"/>
 
-	<!-- Change things about the game window like width and height. -->
-
-	<!-- These window settings apply to all targets .-->
-	<window
-		width="1280"
-		height="720"
-		background="#000000"
-		hardware="true"
-		vsync="false"
-		allow-high-dpi="true"
-	/>
-	<!--HTML5-specific-->
-	<window if="html5" resizable="true" />
-
-	<!-- Desktop-specific. -->
-	<window
-		if="desktop"
-		orientation="landscape"
-		fullscreen="false"
-		resizable="true"
-		vsync="false"
-	/>
-		<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" allow-shaders="true" require-shaders="true" allow-high-dpi="true" />
-
-	<!--Switch-specific-->
-	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
-
-	<!-- Path Settings. -->
-
-	<assets path="assets/preload" rename="assets" />
-
+	<!-- Path Settings -->
+	<assets path="assets/preload" rename="assets"/>
 	<section if="MODDING_ALLOWED">
-		<assets path="mods" embed="false" />
+		<assets path="mods" embed="false"/>
 	</section>
 
-	<!-- Library settings -->
-
-	<define name="PRELOAD_ALL" />
-	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL" />
+	<!-- Library Settings -->
+	<define name="PRELOAD_ALL"/>
+	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>
 
 	<section if="PRELOAD_ALL">
-		<library name="stages" preload="true" />
-		<library name="songs" preload="true" />
-		<library name="shared" preload="true" />
+		<library name="stages" preload="true"/>
+		<library name="songs" preload="true"/>
+		<library name="shared" preload="true"/>
 	</section>
 
 	<section if="NO_PRELOAD_ALL">
-		<library name="stages" preload="false" />
-		<library name="songs" preload="false" />
-		<library name="shared" preload="false" />
+		<library name="stages" preload="false"/>
+		<library name="songs" preload="false"/>
+		<library name="shared" preload="false"/>
 	</section>
 
+	<assets path="assets/songs" library="songs"/>
+	<assets path="assets/stages" library="stages"/>
+	<assets path="assets/shared" library="shared"/>
+	<assets path="assets/preload/fonts" rename="assets/fonts" library="fonts"/>
+	<assets path="CHANGELOG.md" rename="changelog.txt"/>
 
-	<assets path="assets/songs" library="songs" />
-	<assets path="assets/stages" library="stages" />
-	<assets path="assets/shared" library="shared" />
-	<assets path="assets/preload/fonts" rename="assets/fonts" library="fonts" />
+	<assets path="alsoft.ini" if="windows"/>
+	<assets path="alsoft.ini" rename="alsoft.conf" unless="windows"/>
+	<assets path="gamemode.ini" if="linux"/>
 
-	<assets path="CHANGELOG.md" rename='changelog.txt' />
+	<assets path="crash/bin/Crash-windows.exe" if="windows" rename="Crash.exe"/>
+	<assets path="crash/bin/Crash-linux.x86_64" if="linux" rename="Crash.x86_64"/>
 
-	<!-- https://github.com/FunkinCrew/Funkin/pull/3318 -->
-	<assets path="alsoft.ini" if="windows" />
-	<assets path="alsoft.ini" rename="alsoft.conf" unless="windows" />
+	<assets path="build/linux_dependencies.txt" rename="linux_dependencies.txt" if="linux"/>
 
-	<assets path="gamemode.ini" if="linux" />
-
-	<assets path="crash/bin/Crash-windows.exe" if="windows" rename="Crash.exe" />
-
-	<assets path="crash/bin/Crash-linux.x86_64" if="linux" rename="Crash.x86_64" />
-
-	<assets path="build/linux_dependencies.txt" rename='linux_dependencies.txt' if="linux" />
-
-
-	<!-- Export Settings. -->
-	<set name="BUILD_DIR" value="export/debug" if="debug" />
-	<set name="BUILD_DIR" value="export/release" unless="debug" />
-	<set name="BUILD_DIR" value="export/32bit" if="32bit" />
+	<!-- Export Settings -->
+	<set name="BUILD_DIR" value="export/debug" if="debug"/>
+	<set name="BUILD_DIR" value="export/release" unless="debug"/>
+	<set name="BUILD_DIR" value="export/32bit" if="32bit"/>
 
 	<!-- Code Settings -->
+	<app main="Main"/>
+	<source path="source"/>
 
-	<!-- Change the Main file name -->
-	<app main="Main" />
+	<!-- Haxelib Libraries -->
+	<haxelib name="flixel"/>
+	<haxelib name="flixel-addons"/>
+	<haxelib name="flixel-ui"/>
+	<haxelib name="flxanimate"/>
 
-	<!-- Change the source folder path -->
-	<source path="source" />
+	<!-- Scripting -->
+	<haxelib name="hscript-improved" rename="hscript" if="HSCRIPT_ALLOWED"/>
+	<haxelib name="scriptless-polymod" if="MODDING_ALLOWED"/>
+	<haxelib name="linc_luajit" if="desktop || android"/>
 
-	<!-- Libraries -->
-	<haxelib name="flixel" />
-	<haxelib name="flixel-addons" />
-	<haxelib name="flixel-ui" />
-	<haxelib name="hscript-improved" rename="hscript" if="HSCRIPT_ALLOWED" />
-	<haxelib name="scriptless-polymod" if="MODDING_ALLOWED" />
-	<haxelib name="flxanimate" />
-	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED" />
-	<haxelib name="linc_luajit" if="LUA_ALLOWED" version="git" />
-	<haxelib name="hxvlc" if="VIDEOS_ALLOWED" />
-	<haxelib name="hxNoise" />
-	<haxelib name="fnf-modcharting-tools" if="MODCHARTING_TOOLS" unless="hl" />
-	<haxelib name="funkin.vis" />
-	<haxelib name="grig.audio" />
-	<haxelib name="flixel-perspective" />
-	<haxelib name="hxgamemode" if="linux" />
+	<haxelib name="hxdiscord_rpc" if="desktop" />
+
+
+	<!-- Video -->
+	<haxelib name="hxvlc" if="VIDEOS_ALLOWED"/>
+
+	<!-- Extra Libs -->
+	<haxelib name="hxNoise"/>
+	<haxelib name="fnf-modcharting-tools" if="MODCHARTING_TOOLS" unless="hl"/>
+	<haxelib name="funkin.vis"/>
+	<haxelib name="grig.audio"/>
+	<haxelib name="flixel-perspective"/>
+	<haxelib name="hxgamemode" if="linux"/>
+
+	<!-- Android Tools -->
+	<haxelib name="extension-androidtools" if="android"/>
 
 	<!-- Compiler Arguments -->
-	<define name="no-deprecation-warnings" />
-	<define name="message.reporting" value="pretty" />
+	<define name="no-deprecation-warnings"/>
+	<define name="message.reporting" value="pretty"/>
 
-	<!-- Engine Defines -->
 	<section if="COMPILE_ALL_CLASSES">
-		<!-- Macros -->
 		<haxeflag name="--macro"
-			value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.addons.tile.FlxRayCastTilemap', 'flixel.system.macros.*' ])" />
-		<haxeflag name="-dce" value="no" />
-		<haxeflag name="--macro" value="include('hxvlc')" if="VIDEOS_ALLOWED" />
-		<haxeflag name="--macro" value="include('game')" />
+			value="include('flixel', true, [ 'flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.addons.tile.FlxRayCastTilemap', 'flixel.system.macros.*' ])"/>
+		<haxeflag name="-dce" value="no"/>
+		<haxeflag name="--macro" value="include('hxvlc')" if="VIDEOS_ALLOWED"/>
+		<haxeflag name="--macro" value="include('game')"/>
 	</section>
 
-	<define name="hscriptPos" if="HSCRIPT_ALLOWED" />
+	<define name="hscriptPos" if="HSCRIPT_ALLOWED"/>
 
 	<!-- Flixel Defines -->
-	<define name="FLX_NO_FOCUS_LOST_SCREEN" />
-	<define name="FLX_NO_DEBUG" unless="debug" />
-	<define name="FLX_NO_HEALTH" />
+	<define name="FLX_NO_FOCUS_LOST_SCREEN"/>
+	<define name="FLX_NO_DEBUG" unless="debug"/>
+	<define name="FLX_NO_HEALTH"/>
+
+	<!-- Android Config -->
+	<section if="android">
+		<config>
+			<android gradle-version="7.4.2" gradle-plugin="7.3.1"/>
+			<android target-sdk-version="30" if="${lime < 8.1.0}"/>
+		</config>
+	</section>
+
+	<!-- iOS -->
+	<section if="ios">
+		<dependency name="Metal.framework" if="${lime < 8.0.0}"/>
+	</section>
 
 	<!-- OpenFL Defines -->
-	<define name="openfl_enable_experimental_update_queue" />
+	<define name="openfl_enable_experimental_update_queue"/>
 
-	<!-- Discord Defines-->
-	<define name="DISCORD_DISABLE_IO_THREAD" if="DISCORD_ALLOWED" />
+	<!-- Discord -->
+	<define name="DISCORD_DISABLE_IO_THREAD" if="DISCORD_ALLOWED"/>
 
-	<!-- HXVLC Defines. -->
-	<!-- Show debug traces for hxvlc -->
-	<define name="HXVLC_VERBOSE" value="2" if="VIDEOS_ALLOWED debug" />
-	<define name="HXVLC_LOGGING" if="VIDEOS_ALLOWED debug" />
+	<!-- HXVLC Debug -->
+	<define name="HXVLC_VERBOSE" value="2" if="VIDEOS_ALLOWED debug"/>
+	<define name="HXVLC_LOGGING" if="VIDEOS_ALLOWED debug"/>
+	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
+
+	<haxedef name="HXCPP_GC_BIG_BLOCKS" />
 
 	<!-- HXCPP Defines -->
-	<!-- Aways enable Null Object Reference check for crash dialog -->
-	<define name="HXCPP_CHECK_POINTER" if="release" />
-	<define name="HXCPP_STACK_LINE" if="release" />
-	<define name="HXCPP_STACK_TRACE" if="release" />
-	<!-- <define name="HXCPP_GC_GENERATIONAL" /> -->
+	<define name="HXCPP_CHECK_POINTER" if="release"/>
+	<define name="HXCPP_STACK_LINE" if="release"/>
+	<define name="HXCPP_STACK_TRACE" if="release"/>
 
-	<!-- Target-Specific Defines. -->
-	<define name="NO_PRECOMPILED_HEADERS" if="linux" />
+	<define name="NO_PRECOMPILED_HEADERS" if="linux"/>
 
-	<!-- Window Icon Path -->
-	<icon path="art/icon.png" />
+	<!-- Window Icon -->
+	<icon path="art/icon.png"/>
 </project>

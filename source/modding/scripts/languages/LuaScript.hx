@@ -1,7 +1,7 @@
 package modding.scripts.languages;
 
 import shaders.ColorSwap;
-#if LUA_ALLOWED
+#if linc_luajit
 #if MODCHARTING_TOOLS
 import modcharting.ModchartFuncs;
 #end
@@ -43,7 +43,8 @@ import flixel.text.FlxText;
 import haxe.Json;
 import flixel.util.FlxStringUtil;
 import openfl.display.ShaderParameter;
-
+import flixel.input.gamepad.FlxGamepad;
+import flixel.input.FlxInput.FlxInputState;
 import modcharting.FlxSprite3D;
 import flixel.perspective.PerspectiveSprite;
 import flixel.perspective.PerspectiveText;
@@ -157,14 +158,20 @@ class LuaScript extends Script {
 
 		return v;
 	}
-
 	override public function set(name:String, value:Any):Void {
-		Convert.toLua(lua, value);
+		var ok = Convert.toLua(lua, value);
+
+		if (!ok) {
+			return;
+		}
+
 		Lua.setglobal(lua, name);
+
 		for (script in otherScripts) {
 			script.set(name, value);
 		}
 	}
+
 
 	public var trails:Map<String, FlxTrail> = [];
 
@@ -211,13 +218,25 @@ class LuaScript extends Script {
 
 		Lua.init_callbacks(lua);
 
+		
+        if(path == null)
+        {
+            #if mobile
+            path = SUtil.getStorageDirectory() + Paths.lua("modcharts/" + PlayState.SONG.modchartPath);
+            #else 
+            path = PolymodAssets.getPath(Paths.lua("modcharts/" + PlayState.SONG.modchartPath));
+            #end
+        }
+
 		var result:Int = LuaL.dofile(lua, path); // execute le file
 
-		if (result != 0) {
-			CoolUtil.coolError("Lua ERROR:\n" + Lua.tostring(lua, result), "Leather Engine Modcharts");
-			// return;
-			// FlxG.switchState(new MainMenuState());
-		}
+		 if (result != 0)
+        {
+            #if !mobile
+            Application.current.window.alert("lua COMPILE ERROR:\n" + Lua.tostring(lua,result),"Leather Engine Modcharts");
+            #end
+            //FlxG.switchState(new MainMenuState());
+        }
 
 		// get some fukin globals up in here bois
 		set("songLower", PlayState.SONG.song.toLowerCase());
@@ -286,7 +305,12 @@ class LuaScript extends Script {
 
 		set("curStage", PlayState.SONG.stage);
 
-		set("mobile", FlxG.onMobile);
+		
+		#if mobile
+        set("mobile", true);
+        #else 
+        set("mobile", false);
+        #end
 
 		set("curMod", Options.getData("curMod"));
 		set("developer", Options.getData("developer"));
@@ -463,7 +487,23 @@ class LuaScript extends Script {
 		});
 
 		setFunction("justPressedDodgeKey", function() {
-			return FlxG.keys.justPressed.SPACE;
+			 var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+            if (gamepad != null)
+            {
+                if (gamepad.checkStatus(FlxGamepadInputID.fromString(utilities.Options.getData("dodgeControllerBind", "binds")), FlxInputState.JUST_PRESSED))
+                {
+                    return true;
+                }
+
+            }
+
+            #if mobile
+            var controls = PlayState.instance.mobileControls;
+            if (controls.getDodgeJustPressed())
+                return true;
+            #end
+
+            return FlxG.keys.checkStatus(FlxKey.fromString(utilities.Options.getData("dodgeBind", "binds")), FlxInputState.JUST_PRESSED);
 		});
 
 		setFunction("justPressed", function(key:String = "SPACE") {
@@ -1070,8 +1110,11 @@ class LuaScript extends Script {
 			return PlayState.instance.maxHealth;
 		});
 
-		set('changeHealthRange', function(minHealth:Float, maxHealth:Float) {
+		setFunction('changeHealthRange', function(minHealth:Float, maxHealth:Float) {
+
+            @:privateAccess
 			{
+				
 				var bar = PlayState.instance.healthBar;
 				PlayState.instance.minHealth = minHealth;
 				PlayState.instance.maxHealth = maxHealth;
@@ -4011,51 +4054,54 @@ class LuaScript extends Script {
 		}
 	}
 
-	private function convert(v:Any, type:String):Dynamic { // I didn't write this lol
-		if (Std.isOfType(v, String) && type != null) {
-			var v:String = v;
+	private function convert(v : Any, type : String) : Dynamic { // I didn't write this lol
+        if(Std.isOfType(v, String) && type != null ) {
+            var v : String = v;
 
-			if (type.substr(0, 4) == 'array') {
-				if (type.substr(4) == 'float') {
-					var array:Array<String> = v.split(',');
-					var array2:Array<Float> = new Array();
+            if( type.substr(0, 4) == 'array' )
+            {
+                if( type.substr(4) == 'float' ) {
+                    var array : Array<String> = v.split(',');
+                    var array2 : Array<Float> = new Array();
 
-					for (vars in array) {
-						array2.push(Std.parseFloat(vars));
-					}
+                    for( vars in array ) {
+                        array2.push(Std.parseFloat(vars));
+                    }
 
-					return array2;
-				} else if (type.substr(4) == 'int') {
-					var array:Array<String> = v.split(',');
-					var array2:Array<Int> = new Array();
+                    return array2;
+                    }
+                    else if( type.substr(4) == 'int' ) {
+                    var array : Array<String> = v.split(',');
+                    var array2 : Array<Int> = new Array();
 
-					for (vars in array) {
-						array2.push(Std.parseInt(vars));
-					}
+                    for( vars in array ) {
+                        array2.push(Std.parseInt(vars));
+                    }
 
-					return array2;
-				} else {
-					var array:Array<String> = v.split(',');
+                    return array2;
+                    } 
+                    else {
+                    var array : Array<String> = v.split(',');
 
-					return array;
-				}
-			} else if (type == 'float') {
-				return Std.parseFloat(v);
-			} else if (type == 'int') {
-				return Std.parseInt(v);
-			} else if (type == 'bool') {
-				if (v == 'true') {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return v;
-			}
-		} else {
-			return v;
-		}
-	}
+                    return array;
+                }
+            } else if( type == 'float' ) {
+                return Std.parseFloat(v);
+            } else if( type == 'int' ) {
+                return Std.parseInt(v);
+            } else if( type == 'bool' ) {
+                if( v == 'true' ) {
+                return true;
+                } else {
+                return false;
+                }
+            } else {
+                return v;
+            }
+            } else {
+            return v;
+        }
+    }
 
 	public function getVar(var_name:String, type:String):Any {
 		var result:Any = null;

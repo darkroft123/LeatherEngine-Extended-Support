@@ -372,6 +372,16 @@
 		{
 			"option": "autoOpenCharter",
 			"value": false
-		}
+		},
+		{
+            "option": "dodgeBind",
+            "value": "SPACE",
+            "save": "binds"
+        },
+        {
+            "option": "dodgeControllerBind",
+            "value": "LEFT_TRIGGER",
+            "save": "binds"
+        }
 	]
 }

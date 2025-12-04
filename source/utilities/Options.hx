@@ -142,5 +142,22 @@ class Options {
 				setData(bindArray, "binds", "binds");
 			}
 		}
+
+		 if(getData("controllerBinds", "binds") == null)
+            setData(NoteVariables.defaultControllerBinds, "controllerBinds", "binds");
+        else
+        {
+            var bindArray:Array<Dynamic> = getData("controllerBinds", "binds");
+
+            if(bindArray.length < NoteVariables.defaultControllerBinds.length)
+            {
+                for(i in Std.int(bindArray.length - 1)...NoteVariables.defaultControllerBinds.length)
+                {
+                    bindArray[i] = NoteVariables.defaultControllerBinds[i];
+                }
+
+                setData(bindArray, "controllerBinds", "binds");
+            }
+        }
 	}
 }

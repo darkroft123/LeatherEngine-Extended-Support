@@ -75,6 +75,9 @@ class TitleState extends MusicBeatState {
 			NoteVariables.init();
 
 			Options.init();
+			#if android
+			FlxG.android.preventDefaultKeys = [BACK];
+			#end
 
 			LogStyle.ERROR.throwException = Options.getData("throwExceptionOnError");
 
@@ -88,7 +91,10 @@ class TitleState extends MusicBeatState {
 			NoteColors.load();
 			#if MODDING_ALLOWED
 			ModList.load();
+			#if (desktop || mobile)
 			PolymodHandler.loadMods();
+			#end
+
 			MusicBeatState.windowNamePrefix = Options.getData("curMod");
 			CoolUtil.setWindowIcon("mods/" + Options.getData("curMod") + "/_polymod_icon.png");
 			Options.initModOptions();
@@ -302,11 +308,22 @@ class TitleState extends MusicBeatState {
 			}
 		}
 
+		#if mobile
+		if (MobileControls.justPressedAny())
+			pressedEnter = true;
+		#end
+
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
-		if (gamepad != null) {
+		if (gamepad != null)
+		{
 			if (gamepad.justPressed.START)
 				pressedEnter = true;
+
+			#if switch
+			if (gamepad.justPressed.B)
+				pressedEnter = true;
+			#end
 		}
 
 		if (pressedEnter && !transitioning && skippedIntro) {

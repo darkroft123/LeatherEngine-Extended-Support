@@ -4,7 +4,9 @@ class NoteVariables {
 	public static var maniaDirections(default, null):Array<Array<String>>;
 	public static var defaultBinds(default, null):Array<Array<String>>;
 	public static var animationDirections(default, null):Array<Array<String>>;
+	public static var defaultControllerBinds(default, null):Array<Array<String>>;
 	public static var characterAnimations(default, null):Array<Array<String>>;
+
 
 	/**
 	 * @see https://step-mania.fandom.com/wiki/Notes
@@ -14,6 +16,7 @@ class NoteVariables {
 	public static function init() {
 		maniaDirections = CoolUtil.coolTextFileOfArrays(Paths.txt("mania data/maniaDirections"));
 		defaultBinds = CoolUtil.coolTextFileOfArrays(Paths.txt("mania data/defaultBinds"));
+		defaultControllerBinds = CoolUtil.coolTextFileOfArrays(Paths.txt("mania data/defaultControllerBinds"));
 		animationDirections = CoolUtil.coolTextFileOfArrays(Paths.txt("mania data/maniaAnimationDirections"));
 		characterAnimations = CoolUtil.coolTextFileOfArrays(Paths.txt("mania data/maniaCharacterAnimations"));
 	}

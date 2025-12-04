@@ -37,6 +37,9 @@ class Main extends Sprite {
 	public static var onCrash(default, null):FlxTypedSignal<UncaughtErrorEvent->Void> = new FlxTypedSignal<UncaughtErrorEvent->Void>();
 
 	public function new() {
+		#if mobile
+		SUtil.uncaughtErrorHandler();
+		#end
 		super();
 
 		#if sys
@@ -137,6 +140,10 @@ class Main extends Sprite {
 
 		FlxG.signals.gameResized.add(fixCameraShaders);
 
+		#if mobile
+		SUtil.uncaughtErrorHandler();
+		#end
+
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, _onCrash);
 	}
 
@@ -196,6 +203,7 @@ class Main extends Sprite {
 	// -------- Crash handler --------
 	#if sys
 	private function _onCrash(e:UncaughtErrorEvent):Void {
+			#if desktop
 		onCrash.dispatch(e);
 		var error:String = "";
 		var path:String;
@@ -243,6 +251,7 @@ class Main extends Sprite {
 		}
 
 		Sys.exit(1);
+		#end
 	}
 	#end
 

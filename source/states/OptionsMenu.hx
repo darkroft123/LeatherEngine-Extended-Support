@@ -9,7 +9,6 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import openfl.utils.Assets;
-
 using utilities.BackgroundUtil;
 
 class OptionsMenu extends MusicBeatState {
@@ -17,6 +16,7 @@ class OptionsMenu extends MusicBeatState {
 
 	public var inMenu = false;
 
+	#if android final lastStorageType = Options.getData("storageType"); #end
 	public var pages:Map<String, Array<Option>> = [
 		"Categories" => [
 			new PageOption("Gameplay", "Gameplay", "Change gameplay-related options,\nsuch as downscroll and ghost tapping."),
@@ -25,6 +25,9 @@ class OptionsMenu extends MusicBeatState {
 			new PageOption("Plus Options", "Plus Options", "More Options"),
 			#if MODDING_ALLOWED
 			new PageOption("Mod Options", "Mod Options", "Change options for specific mods."),
+			#end
+			#if mobile
+			new PageOption("Mobile Options", "Mobile Options","Change options for Mobile Port"),
 			#end
 			new PageOption("Developer Options", "Developer Options", "Change options for developing mods.")
 		],
@@ -173,6 +176,17 @@ class OptionsMenu extends MusicBeatState {
 			new StepperSaveDeveloperOption("Chart Backup Interval", 1, 10, "backupDuration", 1,
 				"Change how long the game will wait\nbefore creating a chart backup.\n(in minutes.)"),
 		],
+		"Mobile Options" => [
+			new PageOption("Back", "Categories"),
+			#if android
+			new StringSaveOption("Storage Type", ["DATA", "OBB", "MEDIA", "EXTERNAL"], "storageType","xd"),
+			#end
+			new GameSubStateOption("Mobile Controls Opacity", substates.MobileControlsAlphaMenu,"xd"),
+			new StringSaveOption("Hitbox Design", ["No Gradient", "No Gradient (Old)", "Gradient", "Hidden"], "hitboxType","xd")#if mobile ,
+			new BoolOption("Wide Screen Mode", "wideScreen","xd"),
+			new BoolOption("Allow Phone Screensaver", "screenSaver","xd")
+			#end
+		],
 		"Plus Options" => [
 			new PageOption("Back", "Categories", "Go back to the main menu."),
 			new BoolOption("Trail", "trails", "When toggled, disable trail in sprites"),
@@ -270,6 +284,11 @@ class OptionsMenu extends MusicBeatState {
 
 		FlxG.sound.playMusic(MusicUtilities.getOptionsMusic(), 0.7, true);
 		OptionsMenu.playing = true;
+
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		addVirtualPadCamera();
+		#end
 	}
 
 	public function loadPage(loadedPageName:String):Void {
@@ -327,6 +346,22 @@ class OptionsMenu extends MusicBeatState {
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 			}
 
+			#if mobile
+			var vPress:Int = MobileControls.verticalPressOptions(page, curSelected);
+			
+			switch(vPress)
+			{
+				case -1: 
+					curSelected -= 1;
+					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+				case 1: 
+					curSelected += 1;
+					FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+			}
+			#end
+
+			
+
 			if (controls.BACK)
 				goBack();
 		} else {
@@ -365,4 +400,22 @@ class OptionsMenu extends MusicBeatState {
 			}
 		}
 	}
+
+	#if android
+
+	
+	function onStorageChange():Void
+	{
+		sys.io.File.saveContent(lime.system.System.applicationStorageDirectory + 'storagetype.txt', Options.getData("storageType"));
+	
+		var lastStoragePath:String = SUtil.getStorageDirectory();
+
+		try {
+			Sys.command('rm', ['-rf', lastStoragePath]);
+		}
+		catch (e:haxe.Exception)
+			CoolUtil.coolError('Failed to remove last directory. (${e.message})', 'Folder Error');
+
+	}
+	#end
 }

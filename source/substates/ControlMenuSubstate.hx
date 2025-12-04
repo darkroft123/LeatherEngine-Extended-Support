@@ -1,6 +1,7 @@
 package substates;
 
 import game.StrumNote;
+import states.PlayState;
 import utilities.PlayerSettings;
 import flixel.FlxCamera;
 import flixel.text.FlxText;
@@ -12,7 +13,9 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import openfl.utils.Assets;
-
+import utilities.NoteHandler;
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.gamepad.FlxGamepad;
 class ControlMenuSubstate extends MusicBeatSubstate
 {
     public var keyCount:Int = 4;
@@ -26,7 +29,7 @@ class ControlMenuSubstate extends MusicBeatSubstate
     public var arrow_Configs:Map<String, Array<String>> = new Map<String, Array<String>>();
 
     public var binds:Array<Array<String>> = Options.getData("binds", "binds");
-
+    public var controllerBinds:Array<Array<String>> = Options.getData("controllerBinds", "binds");
     public var selectedControl:Int = 0;
     public var selectingStuff:Bool = false;
 
@@ -45,6 +48,13 @@ class ControlMenuSubstate extends MusicBeatSubstate
     public var pauseText:FlxText = new FlxText();
 
     public var mania_gap:Array<String>;
+
+
+    var dodgeKey:FlxSprite = new FlxSprite();
+    var dodgeBind:String = Options.getData("dodgeBind", "binds");
+    var dodgeControllerBind:String = Options.getData("dodgeControllerBind", "binds");
+    var dodgeText:FlxText = new FlxText();
+
 
     public function new()
     {
@@ -144,6 +154,25 @@ class ControlMenuSubstate extends MusicBeatSubstate
         add(pauseKey);
         add(pauseIcon);
         add(pauseText);
+
+        var dodgeIcon:FlxSprite = new FlxSprite();
+        dodgeIcon.loadGraphic(Paths.gpuBitmap("dodgeIcon", "preload"));
+        dodgeIcon.scale *= 0.5;
+        dodgeIcon.antialiasing = true;
+        dodgeIcon.updateHitbox();
+
+        dodgeIcon.x = dodgeKey.x + (dodgeKey.width / 2) - (dodgeIcon.width / 2);
+        dodgeIcon.y = dodgeKey.y - dodgeIcon.height - 16;
+
+        dodgeText.setFormat(Paths.font("vcr.ttf"), 38, FlxColor.WHITE, LEFT, OUTLINE, FlxColor.BLACK);
+
+        dodgeText.text = dodgeBind;
+        dodgeText.x = dodgeKey.x + (dodgeKey.width / 2) - (dodgeText.width / 2);
+        pauseText.y = dodgeKey.y;
+
+        add(dodgeKey);
+        add(dodgeIcon);
+        add(dodgeText);
     }
 
     override function update(elapsed:Float) {
@@ -160,9 +189,12 @@ class ControlMenuSubstate extends MusicBeatSubstate
             if(reset && shift)
             {
                 binds = NoteVariables.defaultBinds;
+                controllerBinds = NoteVariables.defaultControllerBinds;
                 fullscreenBind = "F11";
                 killBind = "R";
                 pauseBind = "ENTER";
+                dodgeBind = "SPACE";
+                dodgeControllerBind = "LEFT_TRIGGER";
             }
             
             if(back)
@@ -171,6 +203,8 @@ class ControlMenuSubstate extends MusicBeatSubstate
                 Options.setData(fullscreenBind, "fullscreenBind", "binds");
                 Options.setData(killBind, "kill", "binds");
                 Options.setData(pauseBind, "pauseBind", "binds");
+                Options.setData(dodgeBind, "dodgeBind", "binds");
+                Options.setData(dodgeControllerBind, "dodgeControllerBind", "binds");
     
                 PlayerSettings.player1.controls.loadKeyBinds();
     
@@ -178,43 +212,72 @@ class ControlMenuSubstate extends MusicBeatSubstate
                 close();
             }
     
-            if(FlxG.mouse.overlaps(fullscreenKey, this.camera) && FlxG.mouse.justPressed && !selectingStuff)
+            var cam = FlxG.camera;
+            if (PlayState.instance != null && FlxG.state == PlayState.instance)
+                cam = PlayState.instance.camHUD;
+
+
+            var justPressed:Bool = FlxG.mouse.justPressed;
+            var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+            if (gamepad != null)
+            {
+                if (gamepad.anyJustPressed([FlxGamepadInputID.A, FlxGamepadInputID.START]))
+                {
+                    justPressed = true;
+                    trace('press');
+                }
+            }
+    
+            if(fullscreenKey.overlapsPoint(FlxG.mouse.getScreenPosition(cam), false) && FlxG.mouse.justPressed && !selectingStuff)
             {
                 selectedControl = -1;
                 selectingStuff = true;
             }
-            else if(FlxG.mouse.overlaps(fullscreenKey, this.camera))
+            else if(fullscreenKey.overlapsPoint(FlxG.mouse.getScreenPosition(cam), false))
                 fullscreenKey.color = FlxColor.GRAY;
             else
                 fullscreenKey.color = FlxColor.WHITE;
     
-            if(FlxG.mouse.overlaps(killKey, this.camera) && FlxG.mouse.justPressed && !selectingStuff)
+            if(killKey.overlapsPoint(FlxG.mouse.getScreenPosition(cam), false) && FlxG.mouse.justPressed && !selectingStuff)
             {
                 selectedControl = -2;
                 selectingStuff = true;
             }
-            else if(FlxG.mouse.overlaps(killKey, this.camera))
+            else if(killKey.overlapsPoint(FlxG.mouse.getScreenPosition(cam), false))
                 killKey.color = FlxColor.GRAY;
             else
                 killKey.color = FlxColor.WHITE;
 
-            if(FlxG.mouse.overlaps(pauseKey, this.camera) && FlxG.mouse.justPressed && !selectingStuff)
+            if(pauseKey.overlapsPoint(FlxG.mouse.getScreenPosition(cam), false) && FlxG.mouse.justPressed && !selectingStuff)
             {
                 selectedControl = -3;
                 selectingStuff = true;
             }
-            else if(FlxG.mouse.overlaps(pauseKey, this.camera))
+            else if(pauseKey.overlapsPoint(FlxG.mouse.getScreenPosition(cam), false))
                 pauseKey.color = FlxColor.GRAY;
             else
                 pauseKey.color = FlxColor.WHITE;
 
-    
+
+            if(dodgeKey.overlapsPoint(FlxG.mouse.getScreenPosition(cam), false) && justPressed && !selectingStuff)
+            {
+                selectedControl = -4;
+                selectingStuff = true;
+            }
+            else if(dodgeKey.overlapsPoint(FlxG.mouse.getScreenPosition(cam), false))
+                dodgeKey.color = FlxColor.GRAY;
+            else
+                dodgeKey.color = FlxColor.WHITE;
+
+            var justSelected:Bool = false;
             for(x in strumGroup)
             {
                 if(FlxG.mouse.overlaps(x, this.camera) && FlxG.mouse.justPressed && !selectingStuff)
                 {
                     selectedControl = x.ID;
                     selectingStuff = true;
+                    justSelected = true;
+                    trace('select');
                 }
     
                 if(FlxG.mouse.overlaps(x, this.camera) || x.ID == selectedControl && selectingStuff)
@@ -239,6 +302,25 @@ class ControlMenuSubstate extends MusicBeatSubstate
                             killBind = curKey;
                         case -3:
                             pauseBind = curKey;
+                        case -4:
+                            dodgeBind = curKey;
+                    }
+                }
+            }
+
+            if(selectingStuff && gamepad != null && gamepad.firstJustPressedID() != FlxGamepadInputID.NONE && !justSelected)
+            {
+                //var curKey = FlxG.keys.getIsDown()[0].ID.toString();
+                var curKey:String = FlxGamepadInputID.toStringMap.get(gamepad.firstJustPressedID());
+    
+                if(selectedControl > -1)
+                    this.controllerBinds[keyCount - 1][selectedControl] = curKey;
+                else
+                {
+                    switch(selectedControl)
+                    {
+                        case -4:
+                            dodgeControllerBind = curKey;
                     }
                 }
             }
@@ -260,32 +342,40 @@ class ControlMenuSubstate extends MusicBeatSubstate
                 create_Arrows();
             }
     
-            if(selectingStuff && FlxG.keys.justPressed.ANY)
+            if(selectingStuff && (FlxG.keys.justPressed.ANY || (gamepad != null && gamepad.anyButton(JUST_PRESSED))) && !justSelected)
                 selectingStuff = false;
     
             update_Text();
         }
     }
 
-    function update_Text()
+       function update_Text()
     {
         for(i in 0...textGroup.length)
         {
-            textGroup.members[i].text = binds[keyCount - 1][i];
+            if (MusicBeatSubstate.usingController)
+                textGroup.members[i].text = NoteHandler.formatControllerBind(controllerBinds[keyCount - 1][i]);
+            else
+                textGroup.members[i].text = binds[keyCount - 1][i];
         }
 
-        fullscreenText.text = fullscreenBind;
+        fullscreenText.text = (MusicBeatSubstate.usingController ? "---" : fullscreenBind);
         fullscreenText.x = fullscreenKey.x + (fullscreenKey.width / 2) - (fullscreenText.width / 2);
         fullscreenText.y = fullscreenKey.y + (fullscreenKey.height / 2) - (fullscreenText.height / 2);
 
-        killText.text = killBind;
+        killText.text = (MusicBeatSubstate.usingController ? "---" : killBind);
         killText.x = killKey.x + (killKey.width / 2) - (killText.width / 2);
         killText.y = killKey.y + (killKey.height / 2) - (killText.height / 2);
 
-        pauseText.text = pauseBind;
+        pauseText.text = (MusicBeatSubstate.usingController ? "---" : pauseBind);
         pauseText.x = pauseKey.x + (pauseKey.width / 2) - (pauseText.width / 2);
         pauseText.y = pauseKey.y + (pauseKey.height / 2) - (pauseText.height / 2);
+
+        dodgeText.text = (MusicBeatSubstate.usingController ? NoteHandler.formatControllerBind(dodgeControllerBind) : dodgeBind);
+        dodgeText.x = dodgeKey.x + (dodgeKey.width / 2) - (dodgeText.width / 2);
+        dodgeText.y = dodgeKey.y + (dodgeKey.height / 2) - (dodgeText.height / 2);
     }
+
 
     function create_Arrows(?new_keyCount)
     {

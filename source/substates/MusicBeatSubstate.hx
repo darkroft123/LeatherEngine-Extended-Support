@@ -1,5 +1,6 @@
 package substates;
 
+import flixel.input.gamepad.FlxGamepad;
 import states.MusicBeatState;
 import lime.app.Application;
 import flixel.input.FlxInput.FlxInputState;
@@ -13,6 +14,12 @@ import flixel.FlxG;
 import flixel.FlxSubState;
 import modding.scripts.languages.HScript;
 
+
+import mobile.flixel.FlxVirtualPad;
+import flixel.FlxCamera;
+import flixel.input.actions.FlxActionInput;
+import flixel.util.FlxDestroyUtil;
+
 class MusicBeatSubstate extends FlxSubState {
 	public var curStep:Int = 0;
 	public var curBeat:Int = 0;
@@ -21,7 +28,43 @@ class MusicBeatSubstate extends FlxSubState {
 	#if HSCRIPT_ALLOWED
 	public var stateScript:HScript;
 	#end
+	public static var usingController:Bool = false;
+	var virtualPad:FlxVirtualPad;
+	var trackedInputsVirtualPad:Array<FlxActionInput> = [];
+	//mobile
+	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode, visible:Bool = true):Void
+	{
+		if (virtualPad != null)
+			removeVirtualPad();
 
+		virtualPad = new FlxVirtualPad(DPad, Action);
+		virtualPad.visible = visible;
+		add(virtualPad);
+
+		controls.setVirtualPad(virtualPad, DPad, Action);
+		trackedInputsVirtualPad = controls.trackedInputs;
+		controls.trackedInputs = [];
+	}
+
+	public function addVirtualPadCamera(DefaultDrawTarget:Bool = false):Void
+	{
+		if (virtualPad != null)
+		{
+			var camControls:FlxCamera = new FlxCamera();
+			camControls.bgColor.alpha = 0;
+			FlxG.cameras.add(camControls, DefaultDrawTarget);
+			virtualPad.cameras = [camControls];
+		}
+	}
+
+	public function removeVirtualPad():Void
+	{
+		if (trackedInputsVirtualPad.length > 0)
+			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
+
+		if (virtualPad != null)
+			remove(virtualPad);
+	}
 	override public function create() {
 		super.create();
 		#if HSCRIPT_ALLOWED
@@ -48,7 +91,33 @@ class MusicBeatSubstate extends FlxSubState {
 
 		if (FlxG.keys.justPressed.F5 && Options.getData("developer"))
 			FlxG.resetState();
+
+
+		Application.current.window.title = MusicBeatState.windowNamePrefix + MusicBeatState.windowNameSuffix;
+
+		if (FlxG.mouse.justPressed || FlxG.mouse.justMoved || FlxG.keys.justPressed.ANY #if mobile || MobileControls.justPressedAny() #end)
+		{
+			usingController = false;
+		}
+		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+		if (gamepad != null)
+		{
+			if (gamepad.anyInput())
+				usingController = true;
+		}
 	}
+
+	
+	override function destroy():Void {
+		if (trackedInputsVirtualPad.length > 0)
+			controls.removeVirtualControlsInput(trackedInputsVirtualPad);
+
+		super.destroy();
+
+		if (virtualPad != null)
+			virtualPad = FlxDestroyUtil.destroy(virtualPad);
+	}
+
 
 	public function updateCurStep():Void {
 		var lastChange:BPMChangeEvent = {

@@ -10,7 +10,8 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 import openfl.display.BitmapData;
-
+import modding.ModList;
+import modding.PolymodHandler;
 /**
  * Assets paths helper class
  */
@@ -25,25 +26,33 @@ class Paths {
 		currentLevel = name.toLowerCase();
 	}
 
+	static function getPath(file:String, type:AssetType, library:Null<String>)
+	{
+		#if mobile
+		for (mod in ModList.getActiveMods(PolymodHandler.metadataArrays)) {
+			var base = SUtil.getStorageDirectory() + 'mods/$mod/';
+			if (FileSystem.exists(base + 'shared/$file')) return base + 'shared/$file';
+			if (FileSystem.exists(base + 'stages/$file')) return base + 'stages/$file';
+			if (FileSystem.exists(base + '_append/$file')) return base + '_append/$file';
+			if (FileSystem.exists(base + '$file')) return base + '$file';
+		}
+		#end
 
-	public static function getPath(file:String, type:AssetType, library:Null<String>):String {
 		if (library != null)
 			return getLibraryPath(file, library);
 
-		if (currentLevel != null) {
-			var levelPath = getLibraryPathForce(file, currentLevel);
+		if (currentLevel != null)
+		{
+			var p = getLibraryPathForce(file, currentLevel);
+			if (OpenFlAssets.exists(p, type)) return p;
 
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
-
-			levelPath = getLibraryPathForce(file, "shared");
-
-			if (OpenFlAssets.exists(levelPath, type))
-				return levelPath;
+			p = getLibraryPathForce(file, "shared");
+			if (OpenFlAssets.exists(p, type)) return p;
 		}
 
 		return getPreloadPath(file);
 	}
+
 
 	static public function getLibraryPath(file:String, library = "preload"):String
 		return if (library == "preload" || library == "default") getPreloadPath(file); else getLibraryPathForce(file, library);
@@ -137,9 +146,8 @@ class Paths {
 		var voicesPath:String = 'songs:assets/songs/${song.toLowerCase()}/';
 		var voicesFile:String = 'Voices';
 
-		
-		if (character != null && mix != null && 
-			(Assets.exists('$voicesPath$voicesFile-$character.ogg') || 
+		if (character != null && mix != null &&
+			(Assets.exists('$voicesPath$voicesFile-$character.ogg') ||
 			Assets.exists('$voicesPath$voicesFile-$character-$mix.ogg')))
 		{
 			voicesFile += '-$character';
@@ -160,9 +168,23 @@ class Paths {
 
 		var finalPath:String = '$voicesPath$voicesFile.ogg';
 
-	
+		#if mobile
+		for (mod in ModList.getActiveMods(PolymodHandler.metadataArrays)) {
+			var modPath = SUtil.getStorageDirectory() + 'mods/$mod/' + finalPath;
+			if (FileSystem.exists(modPath))
+				return 'mods/$mod/' + finalPath;
+		}
+		#else
+		for (mod in ModList.getActiveMods(PolymodHandler.metadataArrays)) {
+			var modPath = 'mods/$mod/' + finalPath;
+			if (FileSystem.exists(modPath))
+				return modPath;
+		}
+		#end
+
 		return Assets.exists(finalPath) ? finalPath : null;
 	}
+
 
 
 	static public function inst(song:String, ?difficulty:String, ?mix:String):String {

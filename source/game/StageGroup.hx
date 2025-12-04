@@ -6,7 +6,7 @@ import modding.scripts.Script;
 #if MODDING_ALLOWED
 import polymod.backends.PolymodAssets;
 #end
-#if LUA_ALLOWED
+#if linc_luajit
 import modding.scripts.languages.LuaScript;
 #end
 import shaders.ColorSwapHSV;
@@ -196,23 +196,41 @@ class StageGroup extends FlxGroup {
 					if (stageData.scriptName == null) {
 						stageData.scriptName = stage;
 					}
-					if (FlxG.state is PlayState) {
+					if (FlxG.state is PlayState) 
+					{
+						var scriptName = stageData.scriptName;
+
 						#if HSCRIPT_ALLOWED
-						if (Assets.exists(Paths.hx('data/stage data/${stageData.scriptName}'))) {
-							stageScript = new HScript(Paths.hx('data/stage data/${stage}'), STAGE);
-							for (object in stageObjects) {
+						if (Assets.exists(Paths.hx('data/stage data/' + scriptName))) 
+						{
+							stageScript = new HScript(Paths.hx('data/stage data/' + scriptName), STAGE);
+
+							for (object in stageObjects)
 								stageScript.set(object[0], object[1]);
-							}
 						}
 						#end
-						#if LUA_ALLOWED
-						if (Assets.exists(Paths.lua("stage data/" + stageData.scriptName))) {
-							stageScript = new LuaScript(#if MODDING_ALLOWED PolymodAssets #else Assets #end.getPath(Paths.lua("stage data/"
-								+ stageData.scriptName)));
+
+						#if linc_luajit
+						if (Assets.exists(Paths.lua('stage data/' + scriptName))) 
+						{
+							var finalPath:String;
+
+							#if mobile
+							finalPath = SUtil.getStorageDirectory() + Paths.lua('stage data/' + scriptName);
+							#else
+							#if MODDING_ALLOWED
+							finalPath = PolymodAssets.getPath(Paths.lua('stage data/' + scriptName));
+							#else
+							finalPath = Assets.getPath(Paths.lua('stage data/' + scriptName));
+							#end
+							#end
+
+							stageScript = new LuaScript(finalPath);
 							stageScript.executeOn = STAGE;
 						}
 						#end
 					}
+
 				}
 		}
 	}

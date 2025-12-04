@@ -30,6 +30,9 @@ class MaxFPSMenu extends MusicBeatSubstate {
 		offsetText.text = "Max FPS: " + fps;
 		offsetText.screenCenter();
 		add(offsetText);
+
+		
+        addVirtualPad(LEFT_RIGHT, A_B);
 	}
 
 	override function update(elapsed:Float) {
@@ -54,6 +57,7 @@ class MaxFPSMenu extends MusicBeatSubstate {
 				FlxG.updateFramerate = fps;
 			}
 			FlxG.state.closeSubState();
+			 removeVirtualPad();
 		}
 
 		if (left && !FlxG.keys.pressed.SHIFT)
@@ -77,7 +81,11 @@ class MaxFPSMenu extends MusicBeatSubstate {
 		if (fps < 10)
 			fps = 10;
 
-		offsetText.text = "Max FPS: " + fps #if !linux + "\nENTER for VSYNC\n" #end;
+		
+        final buttonEnter:String = controls.mobileC ? 'A' : 'ENTER';
+
+        offsetText.text = 'Max FPS: $fps \n$buttonEnter for VSYNC\n';
+		offsetText.text = "Max FPS: " + fps #if !linux + '\n$buttonEnter for VSYNC\n' #end;
 		offsetText.screenCenter();
 	}
 }
