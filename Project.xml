@@ -5,12 +5,12 @@
 
 	<!-- Application Settings -->
 	<app
-		title="Dark's Collection"
-		file="Dark's Collection"
-		packageName="com.darkroft.funkin"
-		package="com.darkroft.funkin"
-		version="0.5.0pre"
-		company="darkroft"
+		title="Leather Engine"
+		file="LeatherEngine"
+		packageName="com.leather128.funkin"
+		package="com.leather128.funkin"
+		version="1.1.6 - Custom Build"
+		company="leather128"
 	/>
 
 	<!-- LEATHER ENGINE CUSTOMIZATION -->
