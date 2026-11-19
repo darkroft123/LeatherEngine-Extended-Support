@@ -17,7 +17,6 @@ import game.Conductor;
 import states.PlayState;
 import states.FreeplayState;
 import states.StoryMenuState;
-import states.GroupSelectState;
 import states.MusicBeatState;
 import ui.HealthIcon;
 import game.Note;

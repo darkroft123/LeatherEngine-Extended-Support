@@ -9,7 +9,7 @@ import game.PlayStateHUD;
 import flixel.util.FlxDestroyUtil;
 import modding.helpers.FlxTweenUtil;
 import haxe.Json;
-import substates.ResultsSubstate;
+import substates.ResultsScreenSubstate;
 import flixel.FlxBasic;
 import shaders.ColorSwap;
 import flixel.FlxCamera;
@@ -3174,7 +3174,7 @@ if (allowDebugMenus()) {
 			PlayState.practiceMode = false;
 			prepareTransition();
 
-			FlxG.switchState(new PracticeState());
+			FlxG.switchState(() -> new FreeplayState());
 			return;
 		}
 
@@ -3195,15 +3195,7 @@ if (allowDebugMenus()) {
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
 
-				if (PlayState.oneshotMode) {
-					PlayState.oneshotMode = false;
-					var completedId = PlayState.oneshotId;
-					PlayState.oneshotId = "";
-					Highscore.onBeatOneshot(completedId);
-					FlxG.switchState(() -> new OneShotsState());
-				} else {
-					FlxG.switchState(() -> new StoryMenuState());
-				}
+				FlxG.switchState(() -> new StoryMenuState());
 
 				if (SONG.validScore)
 					Highscore.saveWeekScore(campaignScore, storyDifficultyStr, (groupWeek != "" ? groupWeek + "Week" : "week") + Std.string(storyWeek));
@@ -3224,17 +3216,12 @@ if (allowDebugMenus()) {
 				SONG.playerKeyCount = ogPlayerKeyCount;
 				PlayState.loadChartEvents = true;
 				LoadingState.loadAndSwitchState(() -> new PlayState());
-
-				if (PlayState.oneshotMode && SONG.validScore) {
-					Highscore.onBeatOneshot(PlayState.oneshotId);
-					trace('Oneshot song beaten: ${PlayState.SONG.song}');
-				}
 			}
 		} else {
 			prepareTransition();
 			PlayState.chartingMode = false;
 			PlayState.modchartingMode = false;
-			FlxG.switchState(() -> new FreeplayState(GroupSelectState.groupID, GroupSelectState.groupSongs));
+			FlxG.switchState(() -> new FreeplayState());
 		}
 	}
 
@@ -4141,8 +4128,7 @@ function keyShit() {
 		}
 		vocals?.stop();
 
-		var res:ResultsSubstate = new ResultsSubstate(replay);
-		openSubState(res);
+		openSubState(new ResultsScreenSubstate());
 	}
 	function getRatingText():String {
 		var ratingArray:Array<Int> = [

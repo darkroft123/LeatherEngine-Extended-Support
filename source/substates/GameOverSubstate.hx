@@ -11,7 +11,6 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import states.GroupSelectState;
 
 class GameOverSubstate extends MusicBeatSubstate {
 	public var bf:Character;
@@ -90,7 +89,7 @@ class GameOverSubstate extends MusicBeatSubstate {
 			if (PlayState.isStoryMode)
 				FlxG.switchState(() -> new StoryMenuState());
 			else
-				FlxG.switchState(new FreeplayState(GroupSelectState.groupID, GroupSelectState.groupSongs));
+				FlxG.switchState(() -> new FreeplayState());
 		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)

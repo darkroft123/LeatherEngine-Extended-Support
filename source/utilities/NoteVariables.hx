@@ -6,6 +6,12 @@ class NoteVariables {
 	public static var animationDirections(get, null):Array<Array<String>>;
 	public static var characterAnimations(get, null):Array<Array<String>>;
 
+	public static var Static_Arrow_Array_(get, null):Array<Array<String>>;
+	static inline function get_Static_Arrow_Array_():Array<Array<String>> return animationDirections;
+
+	public static var Other_Note_Anim_Stuff(get, null):Array<Array<String>>;
+	static inline function get_Other_Note_Anim_Stuff():Array<Array<String>> return characterAnimations;
+
 	/**
 	 * @see https://step-mania.fandom.com/wiki/Notes
 	 */

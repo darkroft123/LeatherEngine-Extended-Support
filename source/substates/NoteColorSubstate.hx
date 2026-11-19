@@ -102,7 +102,7 @@ class NoteColorSubstate extends MusicBeatSubstate
 {
     public static var instance:NoteColorSubstate;
 
-    public static inline var FONT_TITLE:String = "Ethnocentric-Regular.otf";
+    public static inline var FONT_TITLE:String = "vcr.ttf";
     public static inline var FONT_UI:String = "vcr.ttf";
     public static inline var COLOR_CYAN:Int = 0xFF00FFD2;
     public static inline var COLOR_PURPLE:Int = 0xFFC735FF;

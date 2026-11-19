@@ -155,8 +155,8 @@ class TitleState extends MusicBeatState {
 						case "storymenu" | "storymenustate": new states.StoryMenuState();
 						case "options" | "optionsmenu": new states.OptionsMenu();
 						case "mods" | "modsmenu": new states.ModsMenu();
-						case "groupselect" | "groupselectstate": new states.GroupSelectState();
-						case "practice" | "practicestate": new states.PracticeState();
+						case "groupselect" | "groupselectstate": new states.FreeplayState();
+						case "practice" | "practicestate": new states.FreeplayState();
 						case "flashinglights" | "flashinglightsmenu": new states.FlashingLightsMenu();
 						case "toolbox" | "toolboxstate": new toolbox.ToolboxState();
 						case "charactercreator": new toolbox.CharacterCreator("dad", "stage");

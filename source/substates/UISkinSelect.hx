@@ -16,7 +16,7 @@ import flixel.FlxSprite;
 
 class UISkinSelect extends MusicBeatSubstate
 {
-    public static inline var FONT_PATH:String = "Ethnocentric-Regular.otf";
+    public static inline var FONT_PATH:String = "vcr.ttf";
     public static inline var COLOR_TITLE:Int = 0xFF00FFD2;
     public static inline var COLOR_GOLD:Int = 0xFFFFB800;
     public static inline var COLOR_HINTS:Int = 0xFF888899;
@@ -423,9 +423,7 @@ class UISkinSelect extends MusicBeatSubstate
 
     function hudFont():String
     {
-        if (Assets.exists(Paths.font("nose.ttf"))) return Paths.font("nose.ttf");
-        if (Assets.exists(Paths.font("Akira.ttf"))) return Paths.font("Akira.ttf");
-        return Paths.font("droidbold.ttf");
+        return Paths.font("vcr.ttf");
     }
 
     function createTextHUD():Void
