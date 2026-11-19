@@ -42,7 +42,9 @@ class FlashingLightsMenu extends MusicBeatState {
 		initialScripts = Options.getData("disableScripts");
 
 		
-		title = new FlxText(0, 70, 0, 'WELCOME TO DARKS COLLECTION V3.5', 36);
+		var appName:String = lime.app.Application.current.meta.get('name');
+		if (appName == null || appName == "") appName = "Leather Engine Extended";
+		title = new FlxText(0, 70, 0, 'WELCOME TO ' + appName.toUpperCase(), 36);
 		title.setFormat(Paths.font("Ethnocentric-Regular.otf"), 48, FlxColor.WHITE, CENTER);
 		title.screenCenter(X);
 		add(title);

@@ -17,7 +17,7 @@ typedef DefaultOption = {
 }
 
 class Options {
-	public inline static final bindNamePrefix:String = "darks_collection_v3.5_v4-";
+	public inline static final bindNamePrefix:String = "";
 	public static var bindPath(default, null):String;
 
 	public static var saves:Map<String, FlxSave> = [];
