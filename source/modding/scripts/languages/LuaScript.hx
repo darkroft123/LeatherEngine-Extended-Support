@@ -5351,6 +5351,9 @@ setFunction("setStageColorSwap", function(prop:String, value:Dynamic) {
     for (obj in stage.stageObjects) {
         var spr:FlxSprite = obj[1];
         if (spr != null) {
+            if (stage.vortexActive && stage.vortexShader != null && spr.shader == stage.vortexShader.shader)
+                continue;
+
             spr.shader = actor.shader;
         }
     }

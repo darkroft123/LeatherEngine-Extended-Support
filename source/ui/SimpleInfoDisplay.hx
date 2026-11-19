@@ -205,7 +205,18 @@ class SimpleInfoDisplay extends Sprite {
         versionText = createTextField(smallSize, _textColor, 1.0, false);
         commitText = createTextField(smallSize, _textColor, 0.5, false);
 
-        versionText.text = "DC V3.5";
+        var appTitle:String = "Leather Engine Extended Support";
+        var appVer:String = "1.0.0";
+        try {
+            if (lime.app.Application.current != null && lime.app.Application.current.meta != null) {
+                if (lime.app.Application.current.meta.exists('title'))
+                    appTitle = lime.app.Application.current.meta.get('title');
+                if (lime.app.Application.current.meta.exists('version'))
+                    appVer = lime.app.Application.current.meta.get('version');
+            }
+        } catch (e:Dynamic) {}
+
+        versionText.text = '${appTitle} - v${appVer}';
         commitText.text = "";
 
         buildGroup.addChild(versionText);
@@ -347,8 +358,18 @@ class SimpleInfoDisplay extends Sprite {
 
             var curX:Float = 0;
             if (showVers) {
-                var vStr = version != null ? version : "";
-                versionText.text = "DC V3.5" + (vStr.startsWith(" -") ? vStr : (vStr.length > 0 ? " " + vStr : ""));
+                var appTitle:String = "Leather Engine Extended Support";
+                var appVer:String = "1.0.0";
+                try {
+                    if (lime.app.Application.current != null && lime.app.Application.current.meta != null) {
+                        if (lime.app.Application.current.meta.exists('title'))
+                            appTitle = lime.app.Application.current.meta.get('title');
+                        if (lime.app.Application.current.meta.exists('version'))
+                            appVer = lime.app.Application.current.meta.get('version');
+                    }
+                } catch (e:Dynamic) {}
+
+                versionText.text = '${appTitle} - v${appVer}';
                 versionText.x = curX;
                 versionText.y = 0;
                 curX += versionText.width;
@@ -395,16 +416,12 @@ class SimpleInfoDisplay extends Sprite {
             currentY += logsText.height;
         }
 
-        // --- Line 5: User Profile ---
+        // --- Line 5: User Profile / Discord ---
         var showUser = infoDisplayed[5];
-        userText.visible = showUser;
         if (showUser) {
             var username = Options.isLogged() ? Options.currentUser : "";
-            if (username == null || username == "") {
-                userText.text = "NOT LOGGED";
-                userText.textColor = 0xFFFFFF;
-                userText.alpha = 0.5;
-            } else {
+            if (username != null && username.length > 0) {
+                userText.visible = true;
                 var dev = DevList.getByName(username);
                 if (dev != null) {
                     var role = (dev.roles != null && dev.roles.length > 0) ? dev.roles[0].toUpperCase() : "USER";
@@ -416,11 +433,22 @@ class SimpleInfoDisplay extends Sprite {
                     userText.textColor = 0xFFFFFF;
                     userText.alpha = 1.0;
                 }
+            } else if (discordUserName != null && discordUserName.length > 0) {
+                userText.visible = true;
+                userText.text = discordUserName;
+                userText.textColor = 0xFFFFFF;
+                userText.alpha = 0.8;
+            } else {
+                userText.visible = false;
             }
-            userText.x = 0;
-            userText.y = currentY;
 
-            currentY += userText.height;
+            if (userText.visible) {
+                userText.x = 0;
+                userText.y = currentY;
+                currentY += userText.height;
+            }
+        } else {
+            userText.visible = false;
         }
     }
 }

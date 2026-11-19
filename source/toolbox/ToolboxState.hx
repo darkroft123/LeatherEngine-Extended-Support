@@ -6,6 +6,9 @@ import states.PlayState;
 import states.OptionsMenu;
 import toolbox.RTXDebug;
 import utilities.Localization;
+#if CAMERA_TOOLS
+import pages.ModchartEditor;
+#end
 
 class ToolboxState extends OptionsMenu {
 	#if MODDING_ALLOWED override inline function addModOptions() {}#end
@@ -26,7 +29,10 @@ class ToolboxState extends OptionsMenu {
 				new CharacterCreatorOption(Localization.getOptionName("Character Creator", "Character Creator"), () -> new CharacterCreator("dad", "stage"), Localization.getOptionDesc("Character Creator", "Open the character creator.")),
 				new GameStateOption(Localization.getOptionName("Stage Editor", "Stage Editor"), () -> new StageMakingState("stage"), Localization.getOptionDesc("Stage Editor", "Open the stage editor.")),
 				#if MODCHARTING_TOOLS
-				new GameStateOption(Localization.getOptionName("Modchart Editor", "Modchart Editor"), modcharting.ModchartEditorState, Localization.getOptionDesc("Modchart Editor", "Open the modchart editor."))
+				new GameStateOption(Localization.getOptionName("Modchart Editor", "Modchart Editor"), modcharting.ModchartEditorState, Localization.getOptionDesc("Modchart Editor", "Open the modchart editor.")),
+				#end
+				#if CAMERA_TOOLS
+				new GameStateOption(Localization.getOptionName("Camera Editor", "Camera Editor"), ModchartEditor, Localization.getOptionDesc("Camera Editor", "Open the camera modchart editor."))
 				#end
 			],
 			"Documentation" => [
@@ -42,7 +48,9 @@ class ToolboxState extends OptionsMenu {
 		];
 		if (PlayState.instance == null) {
 			pages["Tools"][5] = null;
-			//pages["Tools"][6] = null;
+			#if CAMERA_TOOLS
+			pages["Tools"][6] = null;
+			#end
 		}
 	}
 

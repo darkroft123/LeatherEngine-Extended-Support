@@ -21,6 +21,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import game.DancingSprite;
+import shaders.Shaders.VortexEffect;
 
 
 class StageGroup extends FlxGroup {
@@ -62,6 +63,8 @@ class StageGroup extends FlxGroup {
 	public var stageScript:Script = null;
 
 	public var colorSwap:ColorSwapHSV;
+	public var vortexShader:VortexEffect = null;
+	public var vortexActive:Bool = false;
 	public var rgbKeyboardMode:Bool = false;
 	public var useAbsolutePositions:Bool = false;
 	var lastHue:Float = -999.0;
@@ -433,7 +436,15 @@ class StageGroup extends FlxGroup {
 							imgPath = imageDirectory + "/" + imgPath;
 						}
 
-						if (object.file_Name.startsWith('#')) {
+						if (object.object_Name == "vortex")
+						{
+							if (vortexShader == null)
+								vortexShader = new VortexEffect();
+
+							sprite.makeGraphic(1, 1);
+							sprite.shader = vortexShader.shader;
+							vortexActive = true;
+						} else if (object.file_Name.startsWith('#')) {
 							sprite.makeGraphic(Std.int(object.scale), Std.int(object.scaleY != null ? object.scaleY : object.scale), FlxColor.fromString(object.file_Name));
 						} else {
 							var atlasData = utilities.PorteadorXml.resolveStageAtlasPaths(imageDirectory, object.file_Name);
@@ -612,6 +623,17 @@ override function update(elapsed:Float)
 		cs.hue = (Conductor.songPosition * 0.0002) % 1;
 	}
 
+	if (vortexActive && vortexShader != null)
+	{
+		if (cs == null)
+			cs = ensureColorSwap();
+
+		vortexShader.hue = cs.hue;
+		vortexShader.brightness = cs.brightness;
+		vortexShader.saturation = cs.saturation;
+		vortexShader.update(elapsed);
+	}
+
 	if (colorSwap != null)
 	{
 		colorSwap.update(elapsed);
@@ -626,6 +648,7 @@ override function update(elapsed:Float)
 
 public function setVortexEnabled(value:Bool)
 {
+	vortexActive = value;
 }
 
 inline function resolveScale(stageScale:Null<Float>, char:Character):Float
@@ -928,6 +951,8 @@ public function setStageColorSwapEnabled(value:Bool)
 		for (obj in stageObjects) {
 			var spr:FlxSprite = obj[1];
 			if (spr != null) {
+				if (vortexActive && vortexShader != null && spr.shader == vortexShader.shader)
+					continue;
 				spr.shader = cs.shader;
 			}
 		}

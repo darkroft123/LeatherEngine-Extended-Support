@@ -30,6 +30,172 @@ class ShaderEffect {
 	}
 }
 
+class VortexEffect extends ShaderEffect
+{
+	public var shader(default,null):VortexShader = new VortexShader();
+	public var iTime:Float = 0;
+    public var speed:Float = 3;
+
+    public var red:Float = 2.5;
+    public var green:Float = 1.0;
+    public var blue:Float = 1.5;
+
+	public function new():Void
+	{
+        shader.uTime.value = [0, 0, 0];
+        red = 2.5 * 0.7;
+        green = 1.0 * 0.7;
+        blue = 1.5 * 0.7;
+        shader.spiralColor.value = [red, green, blue];
+        update(0);
+	}
+
+	override public function update(elapsed:Float):Void
+	{
+        iTime += elapsed * speed;
+		shader.iTime.value = [iTime];
+	}
+
+    public var hue(default, set):Float = 0;
+	public var saturation(default, set):Float = 0;
+	public var brightness(default, set):Float = 0;
+
+	private function set_hue(value:Float) {
+		hue = value;
+		shader.uTime.value[0] = hue;
+		return hue;
+	}
+
+	private function set_saturation(value:Float) {
+		saturation = value;
+		shader.uTime.value[1] = saturation;
+		return saturation;
+	}
+
+	private function set_brightness(value:Float) {
+		brightness = value;
+		shader.uTime.value[2] = brightness;
+		return brightness;
+	}
+}
+
+class VortexShader extends FlxShader
+{
+	@:glFragmentSource('
+    #pragma header
+
+    // forked from https://www.shadertoy.com/view/Md3SWH
+    
+    uniform float iTime;
+    uniform vec3 spiralColor;
+    const float radius = 20.0;
+    const float radiusInv = 0.05;
+
+    uniform vec3 uTime; // colorswap stuff
+    vec3 rgb2hsv(vec3 c)
+    {
+        vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+        vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+        vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+
+        float d = q.x - min(q.w, q.y);
+        float e = 1.0e-10;
+        return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+    }
+
+    vec3 hsv2rgb(vec3 c)
+    {
+        vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+        vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+        return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+    }
+    
+    // noise funcs: https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
+    float mod289(float x){return x - floor(x * 0.0034602076) * 289.0;}
+    vec4 mod289(vec4 x){return x - floor(x * 0.0034602076) * 289.0;}
+    vec4 perm(vec4 x){return mod289(((x * 34.0) + 1.0) * x);}
+    
+    float noise(vec3 p){
+        vec3 a = floor(p);
+        vec3 d = p - a;
+        d = d * d * (3.0 - 2.0 * d);
+    
+        vec4 b = a.xxyy + vec4(0.0, 1.0, 0.0, 1.0);
+        vec4 k1 = perm(b.xyxy);
+        vec4 k2 = perm(k1.xyxy + b.zzww);
+    
+        vec4 c = k2 + a.zzzz;
+        vec4 k3 = perm(c);
+        vec4 k4 = perm(c + 1.0);
+    
+        vec4 o1 = fract(k3 * 0.0243902439);
+        vec4 o2 = fract(k4 * 0.0243902439);
+    
+        vec4 o3 = mix(o1, o2, d.z);
+        vec2 o4 = mix(o3.xz, o3.yw, d.x);
+    
+        return mix(o4.x, o4.y, d.y);
+    }
+    
+    float fbm(vec3 pos)
+    {
+        vec3 q = pos;
+        float f = 0.5000 * noise(q); q = q * 2.02;
+        f += 0.2500 * noise(q); q = q * 2.03;
+        f += 0.1250 * noise(q);
+        return f;
+    }
+    
+    float galaxyNoise(vec2 uv, float dist, float angle, float speed)
+    {
+        float percent = (radius - dist) * radiusInv;
+        float theta = iTime * speed + percent * percent * angle;
+        float s = sin(theta);
+        float c = cos(theta);
+        uv = vec2(uv.x * c - uv.y * s, uv.x * s + uv.y * c);
+        
+        float n = abs(fbm(vec3(uv, iTime) * 0.2) - 0.5) * 2.5;
+        float nSmall = smoothstep(0.2, 0.0, n);
+        
+        float result = (nSmall * 0.6 + n + smoothstep(0.75, 1.0, percent)) * smoothstep(0.2, 0.7, percent);
+        return result * result;
+    }
+    
+    vec3 galaxy(vec2 uv)
+    {
+        float dist = length(uv);
+        if (dist >= 16.0) return vec3(0.0);
+
+        float f = galaxyNoise(uv, dist, 9.0, 0.15) * 0.5;
+        if (dist < 12.3077) f += galaxyNoise(uv * 1.3, dist * 1.3, 11.0, -0.1) * 0.6;
+        if (dist < 10.0) f += galaxyNoise(uv * 1.6, dist * 1.6, 8.0, 0.1) * 0.7;
+        f = max(0.0, f);
+        
+        vec3 color = mix(spiralColor, vec3(0.0), dist * radiusInv);
+        return color * f;
+    }
+    
+    void main()
+    {
+        vec2 uv = (openfl_TextureCoordv.xy - 0.5) * 15.0;
+        vec3 col = galaxy(uv);
+
+        if (dot(col, col) > 0.000001 && (abs(uTime.x) + abs(uTime.y) + abs(uTime.z)) > 0.0001) {
+            vec3 swagColor = rgb2hsv(col);
+            swagColor.x += uTime.x;
+            swagColor.y = clamp(swagColor.y + uTime.y, 0.0, 1.0);
+            swagColor.z *= (1.0 + uTime.z);
+            col = hsv2rgb(swagColor);
+        }
+        gl_FragColor = vec4(col, 1.0);
+    }
+    ')
+	public function new()
+	{
+		super();
+	}
+}
+
 class ThreeDEffect extends ShaderEffect {
 	public var shader(default, null):ThreeDShader = new ThreeDShader();
 

@@ -47,45 +47,46 @@ class SwitchModSubstate extends MusicBeatSubstate {
 		var panelW:Int = 800;
 		var panelH:Int = 560;
 
-		panelBg = new FlxSprite(panelX, panelY).makeGraphic(panelW, panelH, 0xFF0D0D20);
+		panelBg = new FlxSprite(panelX, panelY).makeGraphic(panelW, panelH, 0xFF161616);
 		panelBg.alpha = 0;
 		panelBg.scrollFactor.set();
 		add(panelBg);
 
-		// We can emulate a border with 4 thin sprites or just draw it, but makeGraphic doesn't do borders out of the box nicely.
-		// Wait, a slightly larger background behind it is an easy border.
-		panelBorder = new FlxSprite(panelX - 2, panelY - 2).makeGraphic(panelW + 4, panelH + 4, 0xFF6C3FFF);
+		panelBorder = new FlxSprite(panelX - 2, panelY - 2).makeGraphic(panelW + 4, panelH + 4, 0xFFFFFFFF);
 		panelBorder.alpha = 0;
 		panelBorder.scrollFactor.set();
 		insert(members.indexOf(panelBg), panelBorder);
 
 		var titleStr = Localization.getString("switchmod_title", "SWITCH MOD");
-		var titleText = new FlxText(panelX, panelY + 20, panelW, titleStr, 26);
-		titleText.setFormat(Paths.font("Ethnocentric-Regular.otf"), 26, 0xFF9D7EFF, CENTER);
+		var titleText = new FlxText(panelX, panelY + 18, panelW, titleStr, 30);
+		titleText.setFormat(Paths.font("vcr.ttf"), 30, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
+		titleText.borderSize = 2;
 		titleText.alpha = 0;
 		titleText.scrollFactor.set();
 		add(titleText);
 
 		var subStr = Localization.getString("switchmod_sub", "Select a mod to switch to and restart");
-		var subText = new FlxText(panelX, panelY + 55, panelW, subStr, 13);
-		subText.setFormat(Paths.font("vcr.ttf"), 13, 0xFF6B6B8A, CENTER);
+		var subText = new FlxText(panelX, panelY + 54, panelW, subStr, 15);
+		subText.setFormat(Paths.font("vcr.ttf"), 15, 0xFFCCCCCC, CENTER, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
+		subText.borderSize = 1;
 		subText.alpha = 0;
 		subText.scrollFactor.set();
 		add(subText);
 
 		var footerStr = Localization.getString("switchmod_footer", "ENTER to switch  |  ESC to cancel");
-		var footerText = new FlxText(panelX, panelY + panelH - 30, panelW, footerStr, 13);
-		footerText.setFormat(Paths.font("vcr.ttf"), 13, 0xFF6B6B8A, CENTER);
+		var footerText = new FlxText(panelX, panelY + panelH - 30, panelW, footerStr, 15);
+		footerText.setFormat(Paths.font("vcr.ttf"), 15, 0xFFCCCCCC, CENTER, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
+		footerText.borderSize = 1;
 		footerText.alpha = 0;
 		footerText.scrollFactor.set();
 		add(footerText);
 
-		highlightBar = new FlxSprite(panelX + 10, 0).makeGraphic(panelW - 20, 70, 0xFF1E1E3F);
+		highlightBar = new FlxSprite(panelX + 10, 0).makeGraphic(panelW - 20, 70, 0xFFFFFFFF);
 		highlightBar.alpha = 0;
 		highlightBar.scrollFactor.set();
 		add(highlightBar);
 
-		highlightBorder = new FlxSprite(panelX + 10, 0).makeGraphic(2, 70, 0xFF9D7EFF);
+		highlightBorder = new FlxSprite(panelX + 10, 0).makeGraphic(4, 70, 0xFFFFD700);
 		highlightBorder.alpha = 0;
 		highlightBorder.scrollFactor.set();
 		add(highlightBorder);
@@ -97,22 +98,23 @@ class SwitchModSubstate extends MusicBeatSubstate {
 		PolymodHandler.loadModMetadata();
 		loadMods();
 
-		descriptionText = new FlxText(panelX, panelY + panelH - 60, panelW, "", 14);
-		descriptionText.setFormat(Paths.font("vcr.ttf"), 14, FlxColor.WHITE, CENTER);
+		descriptionText = new FlxText(panelX, panelY + panelH - 62, panelW, "", 15);
+		descriptionText.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
+		descriptionText.borderSize = 1;
 		descriptionText.alpha = 0;
 		descriptionText.scrollFactor.set();
 		add(descriptionText);
 
 		// Fade in animation
-		FlxTween.tween(bgOverlay, {alpha: 0.88}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(panelBorder, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(panelBg, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(titleText, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(subText, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(footerText, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(highlightBar, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(highlightBorder, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(descriptionText, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
+		FlxTween.tween(bgOverlay, {alpha: 0.7}, 0.25, {ease: FlxEase.quadOut});
+		FlxTween.tween(panelBorder, {alpha: 0.6}, 0.25, {ease: FlxEase.quadOut});
+		FlxTween.tween(panelBg, {alpha: 0.95}, 0.25, {ease: FlxEase.quadOut});
+		FlxTween.tween(titleText, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
+		FlxTween.tween(subText, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
+		FlxTween.tween(footerText, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
+		FlxTween.tween(highlightBar, {alpha: 0.12}, 0.25, {ease: FlxEase.quadOut});
+		FlxTween.tween(highlightBorder, {alpha: 0.9}, 0.25, {ease: FlxEase.quadOut});
+		FlxTween.tween(descriptionText, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 		
 		for (x in page.members) {
 			x.alpha = 0;

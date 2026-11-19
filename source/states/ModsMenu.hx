@@ -132,7 +132,7 @@ class ModsMenu extends MusicBeatState {
 
 				@:privateAccess
 				descriptionText.text = ModList.modMetadatas.get(x.optionValue).description + "\nAuthor: " + ModList.modMetadatas.get(x.optionValue)._author
-					+ "\nLeather Engine Version: " + ModList.modMetadatas.get(x.optionValue).apiVersion + "\nMod Version: "
+					+ "\nEngine Version: " + ModList.modMetadatas.get(x.optionValue).apiVersion + "\nMod Version: "
 					+ ModList.modMetadatas.get(x.optionValue).modVersion + "\n";
 			}
 

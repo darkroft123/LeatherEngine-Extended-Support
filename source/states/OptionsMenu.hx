@@ -24,7 +24,6 @@ class OptionsMenu extends MusicBeatState {
 				new PageOption("Gameplay", "Gameplay", "Change gameplay-related options,\nsuch as downscroll and ghost tapping."),
 				new PageOption("Graphics", "Graphics", "Change graphical-related options,\nsuch as max FPS."),
 				new PageOption("Misc", "Misc", "Change miscellaneous options that\ndon't fit in the other categories."),
-				new PageOption("Plus Options", "Plus Options", "More Options"),
 				#if MODDING_ALLOWED
 				new PageOption("Mod Options", "Mod Options", "Change options for specific mods."),
 				#end
@@ -49,12 +48,13 @@ class OptionsMenu extends MusicBeatState {
 			"Graphics" => [
 				new PageOption("Back", "Categories", "Go back to the main menu."),
 				new PageOption("Note Options", "Note Options", "Change note-related options."),
-				new PageOption("Info Display", "Info Display", "Change optiosn related to the info display.\n(FPS counter, memory display, etc)."),
-				new PageOption("Optimizations", "Optimizations", "Change optimization options, such as anitaliasing."),
+				new PageOption("Info Display", "Info Display", "Change options related to the info display.\n(FPS counter, memory display, etc)."),
+				new PageOption("Optimizations", "Optimizations", "Change optimization options, such as antialiasing."),
 				new GameSubStateOption("Max FPS", substates.MaxFPSMenu, "Change the maximum framerate."),
 				new BoolOption("VSync", "vSync", "Toggle VSync."),
 				new BoolOption("Bigger Score Text", "biggerScoreInfo", "When toggled, the score text will have a larger font."),
 				new BoolOption("Bigger Info Text", "biggerInfoText", "When toggled, the time bar will have a larger font."),
+				new BoolOption("Gradient Time Bar", "gradientTimeBar", "When toggled, enables gradient colors on the time bar."),
 				new StringSaveOption("Time Bar Style", ["leather engine", "psych engine", "old kade engine"], "timeBarStyle", "Change the style of the time bar."),
 				new PageOption("Screen Effects", "Screen Effects", "Toggle screen effect options, such as camera zooming and shaders."),
 				new GameStateOption("Change Hud Settings", ui.HUDAdjustment, "Change the position of hud objects, such as the ratings.")
@@ -72,9 +72,10 @@ class OptionsMenu extends MusicBeatState {
 				new BoolOption("Invisible Notes", "invisibleNotes", "Makes notes invisible.\n(why would you want this?)"),
 				new BoolOption("Auto Pause", "autoPause", "Will the game automatically pause when losing focus."),
 				#if (target.threaded)
-				new BoolOption("Load Asynchronously", "loadAsynchronously", "Loads some elements of the game will be loaded\nasyncrnously to speed up load times."),
+				new BoolOption("Load Asynchronously", "loadAsynchronously", "Loads some elements of the game asynchronously\nto speed up load times."),
 				#end
 				new BoolOption("Flixel Splash Screen", "flixelStartupScreen", "Toggles the haxeflixel startup splash screen."),
+				new BoolOption("Skip Intro Prompt", "skipTimer", "When toggled, disables the 'PRESS SHIFT TO SKIP INTRO' message."),
 				new BoolOption("Skip Results", "skipResultsScreen", "When toggled, the results screen will be skipped."),
 				#if CHECK_FOR_UPDATES
 				new BoolOption("Check For Updates", "checkForUpdates", "When checked, the game will check for updates on startup."),
@@ -122,7 +123,7 @@ class OptionsMenu extends MusicBeatState {
 				new BoolOption("Version Display", "versionDisplay", "Should the engine version be shown?"),
 				new BoolOption("Commit Hash", "showCommitHash", "Should the hash for the current commit be shown?"),
 				#if DISCORD_ALLOWED
-				new BoolOption("Discord", "showDiscord","Should the Discord be shown? , Good leak")
+				new BoolOption("Discord", "showDiscord", "Should your Discord user be shown on the info display?")
 				#end
 			],
 			"Judgements" => [
@@ -151,6 +152,7 @@ class OptionsMenu extends MusicBeatState {
 				new BoolOption("Enemy Note Splashes", "opponentNoteSplashes",
 					"When toggled, note splashes will show up\nwhen the enemy hits a \"sick\" or higher rating."),
 				new BoolOption("Note Accuracy Text", "displayMs", "Toggles a text popup showing how early or late you hit a note."),
+				new BoolOption("Note Timer", "noteTimer", "When toggled, disables the circular note timer UI."),
 				new GameSubStateOption("Note Colors", substates.NoteColorSubstate, "Change the colors of notes."),
 				new BoolOption("Color Quantization", "colorQuantization", "When toggled, note colors will be changed depending on the beat."),
 				new GameSubStateOption("UI Skin", substates.UISkinSelect, "Change the UI skin for notes and menus.")
@@ -161,6 +163,7 @@ class OptionsMenu extends MusicBeatState {
 				new BoolOption("Camera Bounce", "cameraZooms", "When toggled, the game and hud will zoom in on beat."),
 				new BoolOption("Flashing Lights", "flashingLights", "Toggles flashing lights."),
 				new BoolOption("Screen Shake", "screenShakes", "Toggles screen shake effects."),
+				new BoolOption("Trail", "trails", "When toggled, disable trail in sprites."),
 				new BoolOption("Shaders", "shaders", "Toggles shaders.")
 			],
 			"Developer Options" => [
@@ -174,13 +177,6 @@ class OptionsMenu extends MusicBeatState {
 					"When toggled, the game will automatically\nopen the chart editor when no chart is found."),
 				new StepperSaveDeveloperOption("Chart Backup Interval", 1, 10, "backupDuration", 1,
 					"Change how long the game will wait\nbefore creating a chart backup.\n(in minutes.)"),
-			],
-			"Plus Options" => [
-				new PageOption("Back", "Categories", "Go back to the main menu."),
-				new BoolOption("Trail", "trails", "When toggled, disable trail in sprites"),
-				new BoolOption("NoteTimer", "noteTimer", "When toggled, disables the circular note timer UI."),
-				new BoolOption("SkipTimer", "skipTimer", "When toggled, disables the 'PRESS SHIFT TO SKIP INTRO' message."),
-				new BoolOption("GradientTimeBar", "gradientTimeBar", "When toggled, enables gradient colors on the time bar."),
 			],
 
 			#if MODDING_ALLOWED
