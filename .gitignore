@@ -1,0 +1,70 @@
+# export
+export/
+
+# stupid adobe recovery files
+art/flashFiles/RECOVER_*
+
+# docs we don't need here
+pages/
+
+# big file
+docs/doc.xml
+
+# hidden folders / files
+.*/
+!.github
+!.github/**
+
+# godot imports
+**.import
+
+# backup files
+**~
+
+# Godot 4+ specific ignores
+.godot/
+.nomedia
+
+# Godot-specific ignores
+.import/
+export.cfg
+export_credentials.cfg
+*.tmp
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# Large crash handler binaries (~170MB, generated during release/build)
+crash/bin/Crash-*
+crash/bin/*.exe
+crash/bin/*.x86_64
+crash/crash-*.txt
+crash/silent-errors.log
+
+# Secrets, API keys and environment files
+secrets.json
+secrets.enc
+
+# Runtime cache
+cache/
+secrets.enc
+secrets.local.json
+.env
+*.pem
+*.key
+
+# Test scripts and benchmark reports
+tools/test_*.js
+tools/find_drops.js
+tools/rank_songs.js
+tools/batch_test_audit.js
+tools/measure_ram.js
+tools/audit_*.js
+tools/audit_*.json
+tools/*audit_summary.json
+tools/full_asset_audit_report.json

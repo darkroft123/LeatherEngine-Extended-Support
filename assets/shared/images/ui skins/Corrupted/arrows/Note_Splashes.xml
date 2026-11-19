@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Note_Splashes.png">
+	<!-- Created with Adobe Animate version 21.0.5.40714 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="note splash left0000" x="2" y="2" width="278" height="315" />
+	<SubTexture name="note splash left0001" x="282" y="2" width="278" height="315" />
+	<SubTexture name="note splash left0002" x="562" y="2" width="278" height="315" />
+	<SubTexture name="note splash left0003" x="2" y="319" width="278" height="315" />
+
+	<SubTexture name="note splash right0000" x="2" y="2" width="278" height="315" />
+	<SubTexture name="note splash right0001" x="282" y="2" width="278" height="315" />
+	<SubTexture name="note splash right0002" x="562" y="2" width="278" height="315" />
+	<SubTexture name="note splash right0003" x="2" y="319" width="278" height="315" />
+
+	<SubTexture name="note splash up0000" x="2" y="2" width="278" height="315" />
+	<SubTexture name="note splash up0001" x="282" y="2" width="278" height="315" />
+	<SubTexture name="note splash up0002" x="562" y="2" width="278" height="315" />
+	<SubTexture name="note splash up0003" x="2" y="319" width="278" height="315" />
+
+	<SubTexture name="note splash down0000" x="2" y="2" width="278" height="315" />
+	<SubTexture name="note splash down0001" x="282" y="2" width="278" height="315" />
+	<SubTexture name="note splash down0002" x="562" y="2" width="278" height="315" />
+	<SubTexture name="note splash down0003" x="2" y="319" width="278" height="315" />
+
+</TextureAtlas>

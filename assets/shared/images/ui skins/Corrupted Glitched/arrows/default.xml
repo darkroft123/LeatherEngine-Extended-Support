@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="default.png" width="1125" height="1176">
+	<SubTexture name="down static0000" x="661" y="660" width="156" height="154" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="left static0000" x="821" y="381" width="153" height="156" frameX="-0" frameY="-0" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="right static0000" x="666" y="441" width="154" height="156" frameX="-0" frameY="-0" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="up static0000" x="823" y="158" width="153" height="156" rotated="true" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="square static0000" x="823" y="158" width="153" height="156" rotated="true" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="down2 static0000" x="661" y="660" width="156" height="154" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="left2 static0000" x="821" y="381" width="153" height="156" frameX="-0" frameY="-0" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="right2 static0000" x="666" y="441" width="154" height="156" frameX="-0" frameY="-0" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="up2 static0000" x="823" y="158" width="153" height="156" rotated="true" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+
+	<SubTexture name="down0000" x="668" y="224" width="154" height="156" rotated="true" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="down hold end0000" x="821" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="down hold0000" x="668" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	<SubTexture name="down confirm0000" x="228" y="1" width="220" height="221" rotated="true" frameX="-3" frameY="-1" frameWidth="232" frameHeight="229"/>
+	<SubTexture name="down confirm0001" x="228" y="223" width="220" height="221" rotated="true" frameX="-3" frameY="-1" frameWidth="232" frameHeight="229"/>
+	<SubTexture name="down confirm0002" x="449" y="224" width="218" height="216" frameX="-5" frameY="-5" frameWidth="232" frameHeight="229"/>
+	<SubTexture name="down confirm0003" x="449" y="224" width="218" height="216" frameX="-5" frameY="-5" frameWidth="232" frameHeight="229"/>
+	<SubTexture name="down press0000" x="1" y="1023" width="146" height="144" frameX="-3" frameY="-3" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="down press0001" x="975" y="315" width="149" height="146" frameX="-2" frameY="-2" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="down press0002" x="311" y="878" width="151" height="149" frameX="-1" frameY="-1" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="down press0003" x="1" y="871" width="154" height="151" frameX="-0" frameY="-0" frameWidth="155" frameHeight="152"/>
+
+	<SubTexture name="down20000" x="668" y="224" width="154" height="156" rotated="true" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="down2 hold end0000" x="821" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="down2 hold0000" x="668" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	<SubTexture name="down2 confirm0000" x="228" y="1" width="220" height="221" rotated="true" frameX="-3" frameY="-1" frameWidth="232" frameHeight="229"/>
+	<SubTexture name="down2 confirm0001" x="228" y="223" width="220" height="221" rotated="true" frameX="-3" frameY="-1" frameWidth="232" frameHeight="229"/>
+	<SubTexture name="down2 confirm0002" x="449" y="224" width="218" height="216" frameX="-5" frameY="-5" frameWidth="232" frameHeight="229"/>
+	<SubTexture name="down2 confirm0003" x="449" y="224" width="218" height="216" frameX="-5" frameY="-5" frameWidth="232" frameHeight="229"/>
+	<SubTexture name="down2 press0000" x="1" y="1023" width="146" height="144" frameX="-3" frameY="-3" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="down2 press0001" x="975" y="315" width="149" height="146" frameX="-2" frameY="-2" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="down2 press0002" x="311" y="878" width="151" height="149" frameX="-1" frameY="-1" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="down2 press0003" x="1" y="871" width="154" height="151" frameX="-0" frameY="-0" frameWidth="155" frameHeight="152"/>
+
+	<SubTexture name="up0000" x="824" y="1" width="153" height="156" rotated="true" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="up hold end0000" x="886" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="up hold0000" x="719" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+		<SubTexture name="square0000" x="824" y="1" width="153" height="156" rotated="true" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="square hold end0000" x="886" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="square hold0000" x="719" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	<SubTexture name="up20000" x="824" y="1" width="153" height="156" rotated="true" frameX="-0" frameY="-0" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="up2 hold end0000" x="886" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="up2 hold0000" x="719" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	<SubTexture name="left confirm0000" x="449" y="1" width="219" height="222" frameX="-3" frameY="-3" frameWidth="228" frameHeight="231"/>
+	<SubTexture name="left confirm0001" x="219" y="663" width="209" height="213" frameX="-7" frameY="-7" frameWidth="228" frameHeight="231"/>
+	<SubTexture name="left confirm0002" x="445" y="660" width="215" height="217" frameX="-5" frameY="-5" frameWidth="228" frameHeight="231"/>
+	<SubTexture name="left confirm0003" x="445" y="660" width="215" height="217" frameX="-5" frameY="-5" frameWidth="228" frameHeight="231"/>
+	<SubTexture name="left press0000" x="970" y="907" width="143" height="146" frameX="-3" frameY="-3" frameWidth="152" frameHeight="154"/>
+	<SubTexture name="left press0001" x="977" y="158" width="146" height="149" frameX="-2" frameY="-2" frameWidth="152" frameHeight="154"/>
+	<SubTexture name="left press0002" x="970" y="755" width="148" height="151" frameX="-1" frameY="-1" frameWidth="152" frameHeight="154"/>
+	<SubTexture name="left press0003" x="818" y="755" width="151" height="154" frameX="-0" frameY="-0" frameWidth="152" frameHeight="154"/>
+
+	
+	<SubTexture name="left0000" x="669" y="1" width="154" height="156" frameX="-0" frameY="-0" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="left hold end0000" x="821" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="left hold0000" x="668" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	
+	<SubTexture name="left2 confirm0000" x="449" y="1" width="219" height="222" frameX="-3" frameY="-3" frameWidth="228" frameHeight="231"/>
+	<SubTexture name="left2 confirm0001" x="219" y="663" width="209" height="213" frameX="-7" frameY="-7" frameWidth="228" frameHeight="231"/>
+	<SubTexture name="left2 confirm0002" x="445" y="660" width="215" height="217" frameX="-5" frameY="-5" frameWidth="228" frameHeight="231"/>
+	<SubTexture name="left2 confirm0003" x="445" y="660" width="215" height="217" frameX="-5" frameY="-5" frameWidth="228" frameHeight="231"/>
+	<SubTexture name="left2 press0000" x="970" y="907" width="143" height="146" frameX="-3" frameY="-3" frameWidth="152" frameHeight="154"/>
+	<SubTexture name="left2 press0001" x="977" y="158" width="146" height="149" frameX="-2" frameY="-2" frameWidth="152" frameHeight="154"/>
+	<SubTexture name="left2 press0002" x="970" y="755" width="148" height="151" frameX="-1" frameY="-1" frameWidth="152" frameHeight="154"/>
+	<SubTexture name="left2 press0003" x="818" y="755" width="151" height="154" frameX="-0" frameY="-0" frameWidth="152" frameHeight="154"/>
+
+	
+	<SubTexture name="left20000" x="669" y="1" width="154" height="156" frameX="-0" frameY="-0" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="left2 hold end0000" x="821" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="left2 hold0000" x="668" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+
+	<SubTexture name="right0000" x="818" y="598" width="154" height="156" frameX="-0" frameY="-0" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="right hold end0000" x="886" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="right hold0000" x="719" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	<SubTexture name="right confirm0000" x="228" y="445" width="216" height="217" frameX="-3" frameY="-6" frameWidth="227" frameHeight="230"/>
+	<SubTexture name="right confirm0001" x="1" y="451" width="217" height="216" rotated="true" frameX="-3" frameY="-6" frameWidth="227" frameHeight="230"/>
+	<SubTexture name="right confirm0002" x="449" y="441" width="216" height="218" frameX="-3" frameY="-3" frameWidth="227" frameHeight="230"/>
+	<SubTexture name="right confirm0003" x="449" y="441" width="216" height="218" frameX="-3" frameY="-3" frameWidth="227" frameHeight="230"/>
+	<SubTexture name="right press0000" x="148" y="1029" width="144" height="146" frameX="-3" frameY="-3" frameWidth="152" frameHeight="155"/>
+	<SubTexture name="right press0001" x="978" y="1" width="146" height="149" frameX="-2" frameY="-2" frameWidth="152" frameHeight="155"/>
+	<SubTexture name="right press0002" x="463" y="878" width="149" height="151" frameX="-1" frameY="-1" frameWidth="152" frameHeight="155"/>
+	<SubTexture name="right press0003" x="661" y="815" width="151" height="154" frameX="-0" frameY="-0" frameWidth="152" frameHeight="155"/>
+
+	<SubTexture name="up confirm0000" x="1" y="1" width="226" height="224" frameX="-3" frameY="-2" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="up confirm0001" x="1" y="226" width="226" height="224" frameX="-3" frameY="-2" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="up confirm0002" x="1" y="668" width="204" height="202" frameX="-14" frameY="-13" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="up confirm0003" x="1" y="668" width="204" height="202" frameX="-14" frameY="-13" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="up press0000" x="813" y="910" width="146" height="143" frameX="-3" frameY="-3" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="up press0001" x="311" y="1028" width="149" height="146" frameX="-2" frameY="-2" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="up press0002" x="973" y="538" width="151" height="148" frameX="-1" frameY="-1" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="up press0003" x="156" y="877" width="154" height="151" frameX="-0" frameY="-0" frameWidth="155" frameHeight="152"/>
+
+
+	<SubTexture name="right20000" x="818" y="598" width="154" height="156" frameX="-0" frameY="-0" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="right2 hold end0000" x="886" y="538" width="64" height="50" rotated="true" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="right2 hold0000" x="719" y="381" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	<SubTexture name="right2 confirm0000" x="228" y="445" width="216" height="217" frameX="-3" frameY="-6" frameWidth="227" frameHeight="230"/>
+	<SubTexture name="right2 confirm0001" x="1" y="451" width="217" height="216" rotated="true" frameX="-3" frameY="-6" frameWidth="227" frameHeight="230"/>
+	<SubTexture name="right2 confirm0002" x="449" y="441" width="216" height="218" frameX="-3" frameY="-3" frameWidth="227" frameHeight="230"/>
+	<SubTexture name="right2 confirm0003" x="449" y="441" width="216" height="218" frameX="-3" frameY="-3" frameWidth="227" frameHeight="230"/>
+	<SubTexture name="right2 press0000" x="148" y="1029" width="144" height="146" frameX="-3" frameY="-3" frameWidth="152" frameHeight="155"/>
+	<SubTexture name="right2 press0001" x="978" y="1" width="146" height="149" frameX="-2" frameY="-2" frameWidth="152" frameHeight="155"/>
+	<SubTexture name="right2 press0002" x="463" y="878" width="149" height="151" frameX="-1" frameY="-1" frameWidth="152" frameHeight="155"/>
+	<SubTexture name="right2 press0003" x="661" y="815" width="151" height="154" frameX="-0" frameY="-0" frameWidth="152" frameHeight="155"/>
+
+	<SubTexture name="up2 confirm0000" x="1" y="1" width="226" height="224" frameX="-3" frameY="-2" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="up2 confirm0001" x="1" y="226" width="226" height="224" frameX="-3" frameY="-2" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="up2 confirm0002" x="1" y="668" width="204" height="202" frameX="-14" frameY="-13" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="up2 confirm0003" x="1" y="668" width="204" height="202" frameX="-14" frameY="-13" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="up2 press0000" x="813" y="910" width="146" height="143" frameX="-3" frameY="-3" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="up2 press0001" x="311" y="1028" width="149" height="146" frameX="-2" frameY="-2" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="up2 press0002" x="973" y="538" width="151" height="148" frameX="-1" frameY="-1" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="up2 press0003" x="156" y="877" width="154" height="151" frameX="-0" frameY="-0" frameWidth="155" frameHeight="152"/>
+
+	<SubTexture name="square confirm0000" x="1" y="1" width="226" height="224" frameX="-3" frameY="-2" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="square confirm0001" x="1" y="226" width="226" height="224" frameX="-3" frameY="-2" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="square confirm0002" x="1" y="668" width="204" height="202" frameX="-14" frameY="-13" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="square confirm0003" x="1" y="668" width="204" height="202" frameX="-14" frameY="-13" frameWidth="236" frameHeight="232"/>
+	<SubTexture name="square press0000" x="813" y="910" width="146" height="143" frameX="-3" frameY="-3" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="square press0001" x="311" y="1028" width="149" height="146" frameX="-2" frameY="-2" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="square press0002" x="973" y="538" width="151" height="148" frameX="-1" frameY="-1" frameWidth="155" frameHeight="152"/>
+	<SubTexture name="square press0003" x="156" y="877" width="154" height="151" frameX="-0" frameY="-0" frameWidth="155" frameHeight="152"/>
+</TextureAtlas>

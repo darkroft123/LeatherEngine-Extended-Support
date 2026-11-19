@@ -1,0 +1,153 @@
+name: DevSecOps & CI Pipeline
+
+on:
+  push:
+    branches: [ main, master, dev ]
+  pull_request:
+    branches: [ main, master, dev ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  # =========================================================================
+  # 1. SECRET SCANNING (Gitleaks)
+  # =========================================================================
+  secret-scan:
+    name: Secret Scanning (Gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks Secret Detector
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: true
+          GITLEAKS_ENABLE_SUMMARY: true
+
+  # =========================================================================
+  # 2. SOFTWARE COMPOSITION ANALYSIS (SCA) & VULNERABILITY SCAN (Trivy)
+  # =========================================================================
+  sca-scan:
+    name: SCA & Security Audit (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy Vulnerability & Config Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy Scan Results to GitHub Security Tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # =========================================================================
+  # 3. SAST & CODE QUALITY (CodeQL)
+  # =========================================================================
+  sast-codeql:
+    name: SAST Code Analysis (CodeQL)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: 'javascript-typescript' # Para scripts y tooling web/json
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  # =========================================================================
+  # 4. BUILD PIPELINE WITH HAXELIB & CCACHE CACHING
+  # =========================================================================
+  build-and-compile:
+    name: Build & Compilation (Haxe/C++)
+    runs-on: ubuntu-22.04
+    needs: [secret-scan, sca-scan]
+    env:
+      HXCPP_USE_CCACHE: 1
+      CCACHE_DIR: ${{ runner.workspace }}/.ccache
+      CCACHE_MAXSIZE: 1G
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgl1-mesa-dev \
+            libglu1-mesa-dev \
+            g++-multilib \
+            gcc-multilib \
+            libasound2-dev \
+            libx11-dev \
+            libxext-dev \
+            libxi-dev \
+            libxrandr-dev \
+            libxinerama-dev \
+            libvlc-dev \
+            libvlccore-dev \
+            ccache
+
+      - name: Setup Haxe Toolchain
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.3.4
+
+      - name: Configure Haxelib Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            /home/runner/haxelib
+            /home/runner/.haxelib
+          key: ${{ runner.os }}-haxelib-${{ hashFiles('build/install_libraries.sh') }}-${{ hashFiles('Project.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-haxelib-
+
+      - name: Configure ccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-ccache-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-ccache-
+
+      - name: Zero ccache Statistics
+        run: |
+          ccache -z
+          ccache -s
+
+      - name: Install Haxelib Dependencies
+        run: |
+          chmod +x build/install_libraries.sh
+          ./build/install_libraries.sh
+
+      - name: Build Verification (Linux C++ Target)
+        run: |
+          haxelib run lime build linux -debug -DNO_PRECOMPILED_HEADERS
+
+      - name: Display ccache Hit/Miss Statistics
+        if: always()
+        run: |
+          ccache -s

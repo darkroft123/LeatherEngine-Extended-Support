@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Created with Funkin Packer v0.1.3 https://neeeoo.github.io/funkin-packer/
+-->
+<TextureAtlas imagePath="default.png" width="339" height="333">
+	<SubTexture name="down0000" x="1" y="1" width="148" height="137" frameX="-4" frameY="-8" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="down hold end0000" x="288" y="1" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="down hold0000" x="288" y="261" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+	
+	<SubTexture name="up0000" x="139" y="150" width="148" height="137" frameX="-4" frameY="-9" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="up hold end0000" x="288" y="66" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="up hold0000" x="1" y="288" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+	
+	<SubTexture name="left0000" x="150" y="1" width="137" height="148" frameX="-9" frameY="-4" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="left hold end0000" x="288" y="131" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="left hold0000" x="52" y="288" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	<SubTexture name="right0000" x="1" y="139" width="137" height="148" frameX="-8" frameY="-4" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="right hold end0000" x="288" y="196" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="right hold0000" x="103" y="288" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+    <SubTexture name="down20000" x="1" y="1" width="148" height="137" frameX="-4" frameY="-8" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="down2 hold end0000" x="288" y="1" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="down2 hold0000" x="288" y="261" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+	
+	<SubTexture name="up20000" x="139" y="150" width="148" height="137" frameX="-4" frameY="-9" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="up2 hold end0000" x="288" y="66" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="up2 hold0000" x="1" y="288" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+	
+	<SubTexture name="left20000" x="150" y="1" width="137" height="148" frameX="-9" frameY="-4" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="left2 hold end0000" x="288" y="131" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="left2 hold0000" x="52" y="288" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+	
+	<SubTexture name="right20000" x="1" y="139" width="137" height="148" frameX="-8" frameY="-4" frameWidth="154" frameHeight="157"/>
+	<SubTexture name="right2 hold end0000" x="288" y="196" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="right2 hold0000" x="103" y="288" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+
+	<SubTexture name="square0000" x="139" y="150" width="148" height="137" frameX="-4" frameY="-9" frameWidth="157" frameHeight="154"/>
+	<SubTexture name="square hold end0000" x="288" y="66" width="50" height="64" frameX="-0" frameY="-0" frameWidth="50" frameHeight="64"/>
+	<SubTexture name="square hold0000" x="1" y="288" width="50" height="44" frameX="-0" frameY="-0" frameWidth="51" frameHeight="44"/>
+	
+</TextureAtlas>

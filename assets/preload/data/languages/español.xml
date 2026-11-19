@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language id="español" name="Español">
+    <!-- Categories -->
+    <string id="Categories_name">Categorías</string>
+    <string id="Categories_desc">Selecciona una categoría de opciones.</string>
+    <string id="Gameplay_name">Juego</string>
+    <string id="Gameplay_desc">Opciones de juego, como downscroll y ghost tapping.</string>
+    <string id="Graphics_name">Gráficos</string>
+    <string id="Graphics_desc">Opciones gráficas, como FPS máximos.</string>
+    <string id="Misc_name">Varios</string>
+    <string id="Misc_desc">Opciones varias del juego.</string>
+    <string id="Plus Options_name">Opciones Plus</string>
+    <string id="Plus Options_desc">Opciones adicionales del motor.</string>
+    <string id="Mod Options_name">Opciones de Mods</string>
+    <string id="Mod Options_desc">Opciones para mods específicos.</string>
+    <string id="Login_name">Iniciar Sesión</string>
+    <string id="Login_desc">Inicia sesión para funciones en línea.</string>
+    <string id="Developer Options_name">Desarrollador</string>
+    <string id="Developer Options_desc">Opciones para desarrollo de mods.</string>
+    <string id="Language_name">Idioma</string>
+    <string id="Language_desc">Cambia el idioma de las opciones e interfaz.</string>
+
+    <!-- Common -->
+    <string id="Back_name">Atrás</string>
+    <string id="Back_desc">Regresar al menú anterior.</string>
+
+    <!-- Gameplay -->
+    <string id="Binds_name">Controles</string>
+    <string id="Binds_desc">Cambiar la configuración de teclas.</string>
+    <string id="Key Bind Reminders_name">Recordatorio de Teclas</string>
+    <string id="Key Bind Reminders_desc">Muestra un recordatorio de controles en canciones que no sean de 4 teclas.</string>
+    <string id="Song Offset_name">Offset de Canción</string>
+    <string id="Song Offset_desc">Ajustar la sincronización del audio.</string>
+    <string id="Judgements_name">Juicios de Calificación</string>
+    <string id="Judgements_desc">Opciones relacionadas con calificaciones (sick, good, bad, etc).</string>
+    <string id="Input Options_name">Opciones de Entrada</string>
+    <string id="Input Options_desc">Opciones relacionadas a la pulsación de notas.</string>
+    <string id="Downscroll_name">Downscroll</string>
+    <string id="Downscroll_desc">Las notas bajan en lugar de subir.</string>
+    <string id="Middlescroll_name">Middlescroll</string>
+    <string id="Middlescroll_desc">Centra las notas del jugador en pantalla.</string>
+    <string id="Bot_name">Botplay</string>
+    <string id="Bot_desc">Activa el bot automático para las canciones.</string>
+    <string id="Quick Restart_name">Reinicio Rápido</string>
+    <string id="Quick Restart_desc">Salta la animación de Game Over al reiniciar.</string>
+    <string id="No Death_name">Sin Muerte</string>
+    <string id="No Death_desc">Imposibilita morir durante la canción.</string>
+    <string id="Use Custom Scrollspeed_name">Usar Velocidad Personalizada</string>
+    <string id="Use Custom Scrollspeed_desc">Usa una velocidad de desplazamiento personalizada.</string>
+    <string id="Custom Scroll Speed_name">Velocidad Personalizada</string>
+    <string id="Custom Scroll Speed_desc">Ajusta el valor de la velocidad personalizada.</string>
+    <string id="Hitsound_name">Sonido de Golpe (Hitsound)</string>
+    <string id="Hitsound_desc">Cambia el sonido al acertar una nota.</string>
+
+    <!-- Graphics -->
+    <string id="Note Options_name">Opciones de Notas</string>
+    <string id="Note Options_desc">Ajustes visuales de las notas.</string>
+    <string id="Info Display_name">Visualización de Info</string>
+    <string id="Info Display_desc">Contadores en pantalla (FPS, memoria, etc).</string>
+    <string id="Optimizations_name">Optimizaciones</string>
+    <string id="Optimizations_desc">Opciones de rendimiento y antialiasing.</string>
+    <string id="Max FPS_name">FPS Máximos</string>
+    <string id="Max FPS_desc">Ajusta el límite de cuadros por segundo.</string>
+    <string id="VSync_name">VSync</string>
+    <string id="VSync_desc">Sincronización vertical.</string>
+    <string id="Bigger Score Text_name">Texto de Puntaje Grande</string>
+    <string id="Bigger Score Text_desc">Aumenta la fuente del puntaje.</string>
+    <string id="Bigger Info Text_name">Texto de Info Grande</string>
+    <string id="Bigger Info Text_desc">Aumenta la fuente de la barra de tiempo.</string>
+    <string id="Time Bar Style_name">Estilo de Barra de Tiempo</string>
+    <string id="Time Bar Style_desc">Cambia el diseño visual de la barra de tiempo.</string>
+    <string id="Screen Effects_name">Efectos de Pantalla</string>
+    <string id="Screen Effects_desc">Zoom de cámara, vibración y shaders.</string>
+    <string id="Change Hud Settings_name">Ajustar HUD</string>
+    <string id="Change Hud Settings_desc">Ajusta la posición de los elementos de la interfaz.</string>
+
+    <!-- Misc -->
+    <string id="Friday Night Title Music_name">Música Nocturna de Viernes</string>
+    <string id="Friday Night Title Music_desc">Usa siempre el tema nocturno de viernes.</string>
+    <string id="Freeplay Music_name">Música de Freeplay</string>
+    <string id="Freeplay Music_desc">Reproduce instrumental al seleccionar canciones.</string>
+    <string id="Discord RPC_name">Discord RPC</string>
+    <string id="Discord RPC_desc">Muestra tu estado en Discord.</string>
+    <string id="Cutscenes Play On_name">Reproducir Cinemáticas En</string>
+    <string id="Cutscenes Play On_desc">Elige cuándo se reproducen las cinemáticas.</string>
+    <string id="Play As_name">Jugar Como</string>
+    <string id="Play As_desc">Cambia el lado del personaje a controlar.</string>
+    <string id="Disable Debug Menus_name">Desactivar Menús Debug</string>
+    <string id="Disable Debug Menus_desc">Desactiva herramientas de depuración y editores.</string>
+    <string id="Invisible Notes_name">Notas Invisibles</string>
+    <string id="Invisible Notes_desc">Hace invisibles las notas durante la canción.</string>
+    <string id="Reset to Default_name">Restablecer de Fábrica</string>
+    <string id="Reset to Default_desc">Restablece todas las opciones a valores predeterminados.</string>
+    <string id="Auto Pause_name">Pausa Automática</string>
+    <string id="Auto Pause_desc">Pausa el juego si la ventana pierde el foco.</string>
+    <string id="Load Asynchronously_name">Carga Asíncrona</string>
+    <string id="Load Asynchronously_desc">Carga elementos en segundo plano para agilizar tiempos de carga.</string>
+    <string id="Flixel Splash Screen_name">Pantalla de Flixel</string>
+    <string id="Flixel Splash Screen_desc">Muestra la pantalla de inicio de HaxeFlixel.</string>
+    <string id="Skip Results_name">Saltar Resultados</string>
+    <string id="Skip Results_desc">Salta la pantalla de resultados al finalizar la canción.</string>
+    <string id="Check For Updates_name">Buscar Actualizaciones</string>
+    <string id="Check For Updates_desc">Busca actualizaciones al iniciar el juego.</string>
+    <string id="Show Score_name">Mostrar Puntaje</string>
+    <string id="Show Score_desc">Muestra el puntaje acumulado en pantalla.</string>
+    <string id="Dinnerbone Mode_name">Modo Dinnerbone</string>
+    <string id="Dinnerbone Mode_desc">Gira la pantalla de cabeza.</string>
+    <string id="Import Old Scores_name">Importar Puntajes Antiguos</string>
+    <string id="Import Old Scores_desc">Importa puntajes de versiones anteriores.</string>
+
+    <!-- Title State -->
+    <string id="title_press_enter">PRESIONA ENTER PARA EMPEZAR</string>
+
+    <!-- Main Menu State -->
+    <string id="mainmenu_freeplay_label">MODO LIBRE</string>
+    <string id="mainmenu_freeplay_desc">Juega cualquier canción desbloqueada libremente.</string>
+    <string id="mainmenu_options_label">OPCIONES</string>
+    <string id="mainmenu_options_desc">Ajusta el juego, controles y gráficos.</string>
+    <string id="mainmenu_credits_label">CRÉDITOS</string>
+    <string id="mainmenu_credits_desc">Las personas que trabajaron en Dark's Collection V3 - V3.5.</string>
+    <string id="mainmenu_awards_label">LOGROS</string>
+    <string id="mainmenu_awards_desc">Logros y desafíos ocultos.</string>
+    <string id="mainmenu_oneshots_label">ONE-&#10;SHOTS</string>
+    <string id="mainmenu_oneshots_desc">Desafíos one-shot y canciones extra.</string>
+    <string id="mainmenu_practices_label">MODOS DE&#10;PRÁCTICA</string>
+    <string id="mainmenu_practices_desc">Practica secciones difíciles y domina &#10; caídas duras sin presión.</string>
+    <string id="mainmenu_mods_label">MODS</string>
+    <string id="mainmenu_mods_desc">Gestiona mods instalados y activos.</string>
+    <string id="mainmenu_toolbox_label">HERRAMIENTAS</string>
+    <string id="mainmenu_toolbox_desc">Utilidades de desarrollador y depuración.</string>
+    <string id="mainmenu_unknown_label">???</string>
+    <string id="mainmenu_unknown_desc">Contenido desconocido. Vuelve en otra actualización.</string>
+    <string id="mainmenu_switch_mods">PRESIONA TAB: Cambiar mods</string>
+    <string id="mainmenu_mods_info">{0} mods | {1} activos</string>
+
+    <!-- Mods Manager and Switch Mod -->
+    <string id="modsmenu_window_title"> Menú de Mods</string>
+    <string id="modsmenu_header_title">GESTOR DE MODS</string>
+    <string id="modsmenu_header_sub">Activa o desactiva paquetes de contenido</string>
+    <string id="modsmenu_footer">↑↓ NAVEGAR  |  ENTER ACTIVAR  |  ESC ATRÁS</string>
+    <string id="modsmenu_on">SÍ</string>
+    <string id="modsmenu_off">NO</string>
+    <string id="modsmenu_unknown_author">Desconocido</string>
+    <string id="modsmenu_by_author">Por {0}</string>
+    <string id="modsmenu_version_info">Mod v{0} | API v{1}</string>
+
+    <string id="switchmod_title">CAMBIAR MOD</string>
+    <string id="switchmod_sub">Selecciona un mod al cual cambiar y reiniciar</string>
+    <string id="switchmod_footer">ENTER para cambiar  |  ESC para cancelar</string>
+
+    <!-- Toolbox Menu -->
+    <string id="New Mod_name">Nuevo Mod</string>
+    <string id="New Mod_desc">Crea un nuevo mod</string>
+    <string id="Tools_name">Herramientas</string>
+    <string id="Tools_desc">Muestra herramientas como el creador de personajes y editor de charts.</string>
+    <string id="Documentation_name">Documentación</string>
+    <string id="Documentation_desc">Ver la documentación</string>
+    <string id="Charter_name">Charter</string>
+    <string id="Charter_desc">Abre el editor de charts.</string>
+    <string id="RTX Debug_name">Depurador RTX</string>
+    <string id="RTX Debug_desc">Abre el editor RTX</string>
+    <string id="Character Creator_name">Creador de Personajes</string>
+    <string id="Character Creator_desc">Abre el creador de personajes.</string>
+    <string id="Stage Editor_name">Editor de Escenarios</string>
+    <string id="Stage Editor_desc">Abre el editor de escenarios.</string>
+    <string id="Modchart Editor_name">Editor de Modcharts</string>
+    <string id="Modchart Editor_desc">Abre el editor de modcharts.</string>
+    <string id="Wiki_name">Wiki</string>
+    <string id="Wiki_desc">Ver la Wiki.</string>
+    <string id="HScript Api_name">API HScript</string>
+    <string id="HScript Api_desc">Ver la API de HScript.</string>
+    <string id="Lua Api_name">API Lua</string>
+    <string id="Lua Api_desc">Ver la API de Lua.</string>
+    <string id="Classes List_name">Lista de Clases</string>
+    <string id="Classes List_desc">Ver la lista de clases.</string>
+    <string id="Polymod Docs_name">Docs de Polymod</string>
+    <string id="Polymod Docs_desc">Ver la documentación de Polymod.</string>
+
+    <!-- New Mod State -->
+    <string id="newmod_discord_presence">Creando un Nuevo Mod</string>
+    <string id="newmod_tab_label">Nuevo Mod</string>
+    <string id="newmod_name">Nombre del Mod</string>
+    <string id="newmod_icon">Ícono del Mod</string>
+    <string id="newmod_browse">Buscar</string>
+    <string id="newmod_desc">Descripción</string>
+    <string id="newmod_author">Autor</string>
+    <string id="newmod_version">Versión del Mod&#10;(Debe seguir *.*.*)</string>
+    <string id="newmod_rpc_id">ID de Discord RPC (Opcional)</string>
+    <string id="newmod_auto_enable">Activar Automáticamente</string>
+    <string id="newmod_hide_switch">Ocultar Menú de Cambiar Mod</string>
+    <string id="newmod_create_button">Crear Mod</string>
+    <string id="newmod_popup_title">Mod Creado</string>
+    <string id="newmod_close_button">Cerrar</string>
+    <string id="newmod_error_fill">¡Por favor completa todos los campos requeridos!</string>
+    <string id="newmod_error_exists">¡El mod ya existe!</string>
+
+    <!-- Practice Modals -->
+    <string id="practice_modal_title">¿NECESITAS PRÁCTICA?</string>
+    <string id="practice_modal_msg">Has acumulado {0} intentos en '{1}' (Intensidad >= 4).&#10;&#10;¿Quieres ir al Practice Mode para practicar las partes difíciles?</string>
+    <string id="practice_modal_yes">SÍ, PRACTICAR</string>
+    <string id="practice_modal_no">NO, CONTINUAR</string>
+    <string id="practice_exit_title">¿A DÓNDE DESEAS IR?</string>
+    <string id="practice_exit_msg">Entraste a la práctica desde el Gameplay. Selecciona tu destino:</string>
+    <string id="practice_exit_opt1">VOLVER AL GAMEPLAY</string>
+    <string id="practice_exit_opt2">MENÚ PRINCIPAL</string>
+    <string id="practice_exit_opt3">CANCELAR</string>
+</language>

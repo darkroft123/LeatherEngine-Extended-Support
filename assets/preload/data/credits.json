@@ -1,0 +1,432 @@
+{
+	"credits": [
+		{
+			"nombre": "DARKROFT",
+			"icon": "icons/credits/DARKROFT",
+			"link": "https://www.youtube.com/@darkroftxdlol",
+			"color": "#71FDEA",
+			"roles": [
+				"MODCHARTER",
+				"OWNER",
+				"CODER"
+			],
+			"ogdev": true
+		},
+		{
+			"nombre": "SPIKEMASTER",
+			"icon": "icons/credits/LolMaster",
+			"link": "https://www.youtube.com/@SpikeMaster838",
+			"color": "#ffffff",
+			"roles": [
+				"CHARTER",
+				"CO OWNER"
+			],
+			"ogdev": true
+		},
+		{
+			"nombre": "LUMIOFF",
+			"icon": "icons/credits/LUMI",
+			"link": "https://www.youtube.com/@LumiOff",
+			"color": "#FF8AAE",
+			"roles": [
+				"CHARTER",
+				"COMPOSER",
+				"ICON ARTIST"
+			],
+			"ogdev": true
+		},
+		{
+			"nombre": "BLOXYFOREVER",
+			"icon": "icons/credits/BLOXY",
+			"link": "https://www.youtube.com/@Bloxyforever",
+			"color": "#A8FF71",
+			"roles": [
+				"CHARTER"
+			],
+			"ogdev": true
+		},
+		{
+			"nombre": "BOB",
+			"icon": "icons/credits/BOB",
+			"link": "https://www.youtube.com/@yt_BobFNF",
+			"color": "#FFB347",
+			"roles": [
+				"CHARTER",
+				"MODCHARTER",
+				"ARTIST"
+			],
+			"ogdev": true
+		},
+		{
+			"nombre": "G_ZUCK",
+			"icon": "icons/credits/GZUCK",
+			"link": "https://www.youtube.com/@G_ZuCk",
+			"color": "#71C7FF",
+			"roles": [
+				"CHARTER"
+			],
+			"ogdev": true
+		},
+		{
+			"nombre": "JE(SUS)",
+			"icon": "icons/credits/JE(SUS)",
+			"link": "https://www.youtube.com/@JesusPapus",
+			"color": "#DDA0FF",
+			"roles": [
+				"MODCHARTER"
+			],
+			"ogdev": true
+		},
+		{
+			"nombre": "DOGXD",
+			"icon": "icons/credits/DOGXD",
+			"link": "https://www.youtube.com/@DogXDvoiidnowei",
+			"color": "#FF7171",
+			"roles": [
+				"CHARTER",
+				"MODCHARTER"
+			],
+			"ogdev": true
+		},
+		{
+			"nombre": "!FOXY",
+			"icon": "icons/credits/FOXY",
+			"link": "https://www.youtube.com/@seltv9421",
+			"color": "#FFD371",
+			"ogdev": true,
+			"isIcon": true,
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "JJTURBO",
+			"icon": "icons/credits/JJTURBO",
+			"link": "https://www.youtube.com/@jjturbogoated",
+			"color": "#71FFD1",
+			"ogdev": true,
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "SANS LATAM",
+			"icon": "icons/credits/SANS",
+			"link": "https://www.youtube.com/@Lord_Sans_Latinoamericano",
+			"color": "#ff0000",
+			"ogdev": true,
+			"roles": [
+				"MODCHARTER"
+			]
+		},
+		{
+			"nombre": "FRANKLOLX",
+			"icon": "icons/credits/FRANKLOLX",
+			"link": "https://www.youtube.com/@franklolx",
+			"color": "#FF71E3",
+			"ogdev": true,
+			"roles": [
+				"MODCHARTER"
+			]
+		},
+		{
+			"nombre": "ESO RANDIN",
+			"icon": "icons/credits/ESORANDIN",
+			"link": "https://www.youtube.com/@xdnt2376",
+			"color": "#71FF9C",
+			"ogdev": true,
+			"roles": [
+				"MODCHARTER",
+				"ARTIST",
+				"RENDER ARTIST"
+			]
+		},
+		{
+			"nombre": "LORD PEDRO",
+			"icon": "icons/credits/KAEP",
+			"link": "https://www.youtube.com/@Pedrinho14-09",
+			"color": "#FF9F71",
+			"ogdev": true,
+			"roles": [
+				"RENDER ARTIST",
+				"ICON ARTIST"
+			]
+		},
+		{
+			"nombre": "OSU!CALEB",
+			"icon": "icons/credits/CALEB",
+			"ogdev": true,
+			"link": "https://www.youtube.com/@osucaleb1",
+			"color": "#B51D43",
+			"roles": [
+				"RENDER ARTIST"
+			]
+		},
+		{
+			"nombre": "NASH",
+			"icon": "icons/credits/NASH",
+			"ogdev": true,
+			"link": "https://www.youtube.com/@EsoNash",
+			"color": "#C1FF71",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "NOTPX",
+			"icon": "icons/credits/NOTPX",
+			"ogdev": true,
+			"link": "https://www.youtube.com/@notpx.",
+			"color": "#FF7171",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "LUIGIKIRBO902",
+			"icon": "icons/credits/Kirbo",
+			"ogdev": true,
+			"link": "https://www.youtube.com/@luigikirbo902",
+			"color": "#9C71FF",
+			"roles": [
+				"CODER",
+				"MODCHARTER",
+				"UI SKINS ARTIST",
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "CEZH_FREEZZE2",
+			"icon": "icons/credits/CEZH",
+			"ogdev": true,
+			"link": "https://www.youtube.com/@cezh_freezze2",
+			"color": "#71FFF6",
+			"roles": [
+				"SHADER MAKER"
+			]
+		},
+		{
+			"nombre": "ESMERALDA RAVIOLI",
+			"icon": "icons/credits/BAMBI",
+			"ogdev": true,
+			"link": "https://youtube.com/@esmeralda_raviolixd",
+			"color": "#FF9BC3",
+			"roles": [
+				"HELPER ICON RPC",
+				"HELPER PORTS BG"
+			]
+		},
+		{
+			"nombre": "DIZZY",
+			"icon": "icons/credits/DIZZY",
+			"link": "https://youtube.com/@dizzy_yh",
+			"color": "#FFD1F7",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "EBERZIN",
+			"icon": "icons/credits/EBERZIN",
+			"link": "https://youtube.com/@eberzin_oficial",
+			"color": "#5B209A",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "MARIOPG",
+			"icon": "icons/credits/MARIO",
+			"link": "https://youtube.com/@mariopg09",
+			"color": "#8B0000",
+			"roles": [
+				"CHARTER",
+				"MODCHARTER"
+			]
+		},
+		{
+			"nombre": "SomeOofDoof",
+			"icon": "icons/credits/OOFY",
+			"link": "https://www.youtube.com/@SomeOofDoof",
+			"color": "#ff1bdc",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "FRANCIS",
+			"icon": "icons/credits/FRANCIS",
+			"link": "https://www.youtube.com/@Francis2401",
+			"color": "#1111D1",
+			"roles": [
+				"TESTER"
+			]
+		},
+		{
+			"nombre": "LLERMU",
+			"icon": "icons/credits/LLERMU",
+			"link": "",
+			"color": "#FF69B4",
+			"roles": [
+				"TESTER"
+			]
+		},
+		{
+			"nombre": "KBMASTER",
+			"icon": "icons/credits/KBMASTER",
+			"link": "https://www.youtube.com/@KBMastered",
+			"color": "#98FFCC",
+			"roles": [
+				"TESTER"
+			]
+		},
+		{
+			"nombre": "REDPANDA",
+			"icon": "icons/credits/REDPANDA",
+			"link": "https://www.tiktok.com/@redpandauwur",
+			"color": "#ff3a1e",
+			"roles": [
+				"TESTER"
+			]
+		},
+		{
+			"nombre": "Ksherif9",
+			"icon": "icons/credits/NIGUGU",
+			"link": "",
+			"color": "#FFA500",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "ELDELOSCHURROS207",
+			"icon": "icons/credits/churrosiconoxdlol",
+			"link": "https://www.youtube.com/@ElDeLosChurros207",
+			"color": "#4B4BAD",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "NuBK1DD",
+			"icon": "icons/credits/NUB",
+			"link": "",
+			"color": "#ffffff",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "-Kam1sh_-",
+			"icon": "icons/credits/KAMI",
+			"link": "https://www.youtube.com/@kami_km5",
+			"color": "#DC143C",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "POLLONERO",
+			"icon": "icons/credits/POLLONERO",
+			"link": "https://youtube.com/@borrenesamadrexd",
+			"color": "#FFD1F7",
+			"roles": [
+				"CHARTER",
+				"MODCHARTER",
+				"CODER"
+			]
+		},
+		{
+			"nombre": "Literally Rei Ayanami",
+			"icon": "icons/credits/REI",
+			"link": "https://gamejolt.com/@ReiAyanamieva",
+			"color": "#FFD1F7",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "Lesangop13",
+			"icon": "icons/credits/LESANGOP",
+			"link": "https://www.youtube.com/@lesangop13thereal",
+			"color": "#9808ff",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "Krypt",
+			"icon": "icons/credits/KRYPT",
+			"link": "https://www.youtube.com/@Prod_Krypt",
+			"color": "#800080",
+			"roles": [
+				"MODCHARTER"
+			]
+		},
+		{
+			"nombre": "LEFTIS",
+			"icon": "icons/credits/LEFTIS",
+			"link": "",
+			"color": "#FF7171",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "HADES",
+			"icon": "icons/credits/HADES",
+			"link": "https://youtube.com/@hadeshyperzoinks",
+			"color": "#00FF00 ",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "ZENIITHX",
+			"icon": "icons/credits/ZenithIcon",
+			"link": "https://gamejolt.com/@Zeni7hx",
+			"color": "#00FF00 ",
+			"roles": [
+				"CHARTER"
+			]
+		},
+		{
+			"nombre": "THE_FABRIZ",
+			"icon": "icons/credits/FABRIZ",
+			"link": "https://youtube.com/@esofabrin",
+			"color": "#ebefff",
+			"roles": [
+				"BG ARTIST",
+				"RENDER ARTIST"
+			]
+		},
+		{
+			"nombre": "SOGETTO",
+			"icon": "icons/credits/SOGETTO",
+			"link": "https://x.com/csogemisterioso",
+			"color": "#ebefff",
+			"roles": [
+				"ARTIST",
+				"RENDER ARTIST"
+			]
+		},
+		{
+			"nombre": "HANNIKI",
+			"icon": "icons/credits/HANIKI",
+			"link": "https://gamejolt.com/@Hannidev",
+			"color": "#D26CFF",
+			"roles": [
+				"ARTIST"
+			]
+		},
+		{
+			"nombre": "KeRugamer",
+			"icon": "icons/credits/KERU",
+			"link": "https://www.youtube.com/watch?v=aC68MggZsU0",
+			"color": "#532FD4",
+			"roles": [
+				"ARTIST"
+			]
+		}
+	]
+}

@@ -1,0 +1,15 @@
+{
+    "songs": [
+        {
+            "name": "tutorial",
+            "icon": "gf",
+            "color": "#B72863",
+            "difficulties": [
+                "easy",
+                "normal",
+                "hard"
+            ],
+            "week": 0
+        }
+    ]
+}

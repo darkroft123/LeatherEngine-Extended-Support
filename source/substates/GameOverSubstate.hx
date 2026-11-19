@@ -1,0 +1,163 @@
+package substates;
+
+import lime.utils.Assets;
+import game.Character;
+import states.FreeplayState;
+import states.StoryMenuState;
+import game.Conductor;
+import states.PlayState;
+import game.Boyfriend;
+import flixel.FlxG;
+import flixel.FlxObject;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import states.GroupSelectState;
+
+class GameOverSubstate extends MusicBeatSubstate {
+	public var bf:Character;
+	public var camFollow:FlxObject;
+
+	public static var instance:GameOverSubstate = null;
+
+	public function new(x:Float, y:Float) {
+		instance = this;
+		super();
+		PlayState.playCutscenes = true;
+		FlxG.camera.bgColor = FlxColor.BLACK;
+
+		FlxG.camera.scroll.set();
+		FlxG.camera.target = null;
+
+		if (Options.getData("quickRestart")) {
+			PlayState.instance.call("onRetry", []);
+			PlayState.SONG.speed = PlayState.previousScrollSpeed;
+			FlxG.resetState();
+		}
+
+		Conductor.songPosition = 0;
+		PlayState.deathCounter++;
+
+		var deadCharName:String = (PlayState.characterPlayingAs == OPPONENT && PlayState.dad != null) ? PlayState.dad.deathCharacter : PlayState.boyfriend.deathCharacter;
+		bf = new Boyfriend(x, y, deadCharName, true);
+		bf.x += bf.positioningOffset[0];
+		bf.y += bf.positioningOffset[1];
+
+		// When dying while playing as the opponent, mirror the death sprite by default so it
+		// faces the correct side. A death sprite whose config declares flipDeath:false is
+		// already authored facing the opponent and won't be flipped.
+		if (PlayState.characterPlayingAs == OPPONENT) {
+			var flipDeath:Bool = (bf.config == null || bf.config.flipDeath == null) ? true : bf.config.flipDeath;
+			if (flipDeath) {
+				bf.flipX = !bf.flipX;
+				if (bf.cameraOffset != null && bf.cameraOffset.length > 0)
+					bf.cameraOffset[0] = -bf.cameraOffset[0];
+			}
+		}
+
+		add(bf);
+
+		camFollow = new FlxObject(bf.getGraphicMidpoint().x + bf.cameraOffset[0], bf.getGraphicMidpoint().y + bf.cameraOffset[1], 1, 1);
+		add(camFollow);
+
+		if (FlxG.sound.music.active)
+			FlxG.sound.music.stop();
+
+		bfDies();
+	}
+
+	function bfDies() {
+		var soundPath = Paths.sound("deaths/bf-dead/death");
+		bf.visible = true;
+		if (Assets.exists(Paths.sound("deaths/" + bf.curCharacter + "/death")))
+			soundPath = Paths.sound("deaths/" + bf.curCharacter + "/death");
+
+		FlxG.sound.play(soundPath);
+
+		Conductor.changeBPM(100);
+		bf.playAnim('firstDeath', true);
+	}
+
+	override function update(elapsed:Float) {
+		super.update(elapsed);
+
+		if (controls.ACCEPT) {
+			endBullshit();
+		}
+
+		if (controls.BACK) {
+			FlxG.sound.music.stop();
+
+			if (PlayState.isStoryMode)
+				FlxG.switchState(() -> new StoryMenuState());
+			else
+				FlxG.switchState(new FreeplayState(GroupSelectState.groupID, GroupSelectState.groupSongs));
+		}
+
+		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
+			FlxG.camera.follow(camFollow, LOCKON, 0.01);
+
+		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished) {
+			var soundPath = Paths.music("deaths/bf-dead/loop");
+
+			if (Assets.exists(Paths.music("deaths/" + bf.curCharacter + "/loop")))
+				soundPath = Paths.music("deaths/" + bf.curCharacter + "/loop");
+
+			FlxG.sound.playMusic(soundPath);
+			PlayState.instance.call("onDeathLoop", []);
+		}
+
+		if (FlxG.sound.music.playing) {
+			Conductor.songPosition = FlxG.sound.music.time;
+		}
+
+		#if (flixel < "6.0.0")
+		FlxG.camera.followLerp = elapsed * 0.6;
+		#end
+	}
+
+	var isEnding:Bool = false;
+
+	override public function destroy() {
+		super.destroy();
+		if (bf != null) {
+			remove(bf);
+			bf.kill();
+			bf.destroy();
+			bf = null;
+		}
+		if (camFollow != null) {
+			remove(camFollow);
+			camFollow.destroy();
+			camFollow = null;
+		}
+		instance = null;
+	}
+
+	function endBullshit():Void {
+		if (!isEnding) {
+			PlayState.instance.call("onRetry", []);
+			isEnding = true;
+			bf.playAnim('deathConfirm', true);
+			FlxG.sound.music.stop();
+
+			var soundPath = Paths.music("deaths/bf-dead/retry");
+
+			if (Assets.exists(Paths.music("deaths/" + bf.curCharacter + "/retry")))
+				soundPath = Paths.music("deaths/" + bf.curCharacter + "/retry");
+
+			FlxG.sound.play(soundPath);
+			new FlxTimer().start(0.7, function(tmr:FlxTimer) {
+				FlxG.camera.fade(FlxColor.BLACK, 2, false, function() {
+
+					if (PlayState.practiceMode) {
+						PlayState.startOnTime = PlayState.practiceStartTime;
+					}
+
+					PlayState.SONG.speed = PlayState.previousScrollSpeed;
+					FlxG.resetState();
+				});
+			});
+
+		}
+	}
+}
