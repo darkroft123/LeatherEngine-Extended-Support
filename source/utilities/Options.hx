@@ -17,7 +17,7 @@ typedef DefaultOption = {
 }
 
 class Options {
-	public inline static final bindNamePrefix:String = "";
+	public inline static final bindNamePrefix:String = "leather-";
 	public static var bindPath(default, null):String;
 
 	public static var saves:Map<String, FlxSave> = [];

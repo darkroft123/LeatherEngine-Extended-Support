@@ -102,8 +102,15 @@ class TitleState extends MusicBeatState {
 			PolymodHandler.loadMods();
 			#end
 
-			MusicBeatState.windowNamePrefix = Options.getData("curMod");
-			CoolUtil.setWindowIcon("mods/" + Options.getData("curMod") + "/_polymod_icon.png");
+			var curMod:String = Options.getData("curMod");
+			if (curMod != null && curMod != "") {
+				MusicBeatState.windowNamePrefix = curMod;
+				var iconPath:String = "mods/" + curMod + "/_polymod_icon.png";
+				if (sys.FileSystem.exists(iconPath))
+					CoolUtil.setWindowIcon(iconPath);
+			} else {
+				MusicBeatState.windowNamePrefix = "Leather Engine Extended Support";
+			}
 			Options.initModOptions();
 			#end
 			NoteVariables.init();

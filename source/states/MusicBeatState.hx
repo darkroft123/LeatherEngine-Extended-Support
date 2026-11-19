@@ -27,7 +27,7 @@ class MusicBeatState extends #if MODCHARTING_TOOLS modcharting.ModchartMusicBeat
 	private var controls(get, never):Controls;
 
 	public static var windowNameSuffix(default, set):String = "";
-	public static var windowNamePrefix(default, set):String = "Leather Engine Extended";
+	public static var windowNamePrefix(default, set):String = "Leather Engine Extended Support";
 
 	public static var fullscreenBind:String = "F11";
 	public static var autoTestStateDuration:Float = -1;
@@ -233,7 +233,7 @@ class MusicBeatState extends #if MODCHARTING_TOOLS modcharting.ModchartMusicBeat
 
 	@:noCompletion
 	inline static function set_windowNamePrefix(value:String):String {
-		windowNamePrefix = (value != null && value != "") ? value : "Leather Engine Extended";
+		windowNamePrefix = (value != null && value != "") ? value : "Leather Engine Extended Support";
 		_refreshWindowName();
 		return value;
 	}

@@ -6,7 +6,7 @@
 	<!-- Change things about the exported file, such as executable name or version number. -->
 	<!-- You likely will want to change these if you're making a source mod. -->
 	<app
-		title="Leather Engine Extended"
+		title="Leather Engine Extended Support"
 		file="LeatherEngine"
 		packageName="org.leatherengine.extended"
 		package="org.leatherengine.extended"

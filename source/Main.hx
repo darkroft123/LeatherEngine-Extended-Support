@@ -148,7 +148,7 @@ class Main extends Sprite
 
 		#if HXCPP_TRACY
 		Lib.current.stage.addEventListener(Event.EXIT_FRAME, (_:Event) -> cpp.vm.tracy.TracyProfiler.frameMark());
-		cpp.vm.tracy.TracyProfiler.messageAppInfo('Leather Engine Extended');
+		cpp.vm.tracy.TracyProfiler.messageAppInfo('Leather Engine Extended Support');
 		cpp.vm.tracy.TracyProfiler.setThreadName('main');
 		#end
 
